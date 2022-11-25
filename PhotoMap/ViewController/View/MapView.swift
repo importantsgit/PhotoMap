@@ -19,7 +19,7 @@ class MapView: UIView{
     
     let map = MKMapView()
     
-    var KoreaCenter = CLLocation(latitude: 37.51204043684012, longitude: 126.96601111097554)
+    var KoreaCenter = CLLocation()
     
     var locationManager = CLLocationManager()
     
@@ -78,14 +78,22 @@ class MapView: UIView{
 
 extension MapView {
     func setup() {
+//        map.setUserTrackingMode(MKUserTrackingMode.followWithHeading, animated: true)
+//        map.userTrackingMode = MKUserTrackingMode.followWithHeading
         map.showsUserLocation = true
-        map.centerToLocation(KoreaCenter)
         ConstrainingTheCamera()
         checkPermissions()
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest // 거리 정확도 설정
+        // 베터리로 동작할 때 권장되는 가장 높은 수준의 정확도
+        
+        //로케이션 매니저의 distanceFilter 속성을 사용하면 어느 정도 거리의 위치 변화가 생겼을 때 앱이 알림을 받을지 말지를 설정할 수 있다.
+        locationManager.distanceFilter = 10
 
-
+        KoreaCenter = map.userLocation.location ?? CLLocation(latitude: 37.553326059065206, longitude: 126.97277126191183)
+        map.centerToLocation(KoreaCenter)
+        
+        
         
     }
     
@@ -126,10 +134,10 @@ extension MapView {
     
 
     func ConstrainingTheCamera() {
-        // 카메라 제한을 거는
-        let oahuCenter = KoreaCenter
+        // 자신의 위치로 맵을 이동시키는 메소드
+        let center = KoreaCenter
         let region = MKCoordinateRegion(
-            center: oahuCenter.coordinate,
+            center: center.coordinate,
             latitudinalMeters: 50000,
             longitudinalMeters: 60000
         )
@@ -159,6 +167,18 @@ extension MapView: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         // 위도 경도 받아오기 에러
         delegate?.showAlert(withTitle: "위치 정보 받아오기 실패", message: "Error:\(error)")
+    }
+    
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        checkPermissions()
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
+        // 영역 안으로 들어오면
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didExitRegion region: CLRegion) {
+        // 영역 밖으로 나가면
     }
     
 
