@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   uuid = "0462CF6B-B834-4A99-BC79-40BC2D83C155"
+   type = "0"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "F4E06964-125C-4A75-9FBE-B7278402E293"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "PhotoMap/ViewController/MapViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "10"
+            endingLineNumber = "10"
+            landmarkName = "unknown"
+            landmarkType = "0">
+            <Locations>
+               <Location
+                  uuid = "F4E06964-125C-4A75-9FBE-B7278402E293 - 95f6db6e6561093f"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "PhotoMap.MapViewController.__allocating_init(nibName: Swift.Optional&lt;Swift.String&gt;, bundle: Swift.Optional&lt;__C.NSBundle&gt;) -&gt; PhotoMap.MapViewController"
+                  moduleName = "PhotoMap"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ijaehun/Desktop/RxSwift/PhotoMap/PhotoMap/PhotoMap/ViewController/MapViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "28">
+               </Location>
+               <Location
+                  uuid = "F4E06964-125C-4A75-9FBE-B7278402E293 - 6b2ac17046bb009a"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "PhotoMap.MapViewController.init(nibName: Swift.Optional&lt;Swift.String&gt;, bundle: Swift.Optional&lt;__C.NSBundle&gt;) -&gt; PhotoMap.MapViewController"
+                  moduleName = "PhotoMap"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ijaehun/Desktop/RxSwift/PhotoMap/PhotoMap/PhotoMap/ViewController/MapViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "15"
+                  endingLineNumber = "15"
+                  offsetFromSymbolStart = "76">
+               </Location>
+               <Location
+                  uuid = "F4E06964-125C-4A75-9FBE-B7278402E293 - 352d1206d16c1168"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "PhotoMap.MapViewController.__allocating_init(coder: __C.NSCoder) -&gt; Swift.Optional&lt;PhotoMap.MapViewController&gt;"
+                  moduleName = "PhotoMap"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ijaehun/Desktop/RxSwift/PhotoMap/PhotoMap/PhotoMap/ViewController/MapViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "20">
+               </Location>
+               <Location
+                  uuid = "F4E06964-125C-4A75-9FBE-B7278402E293 - 38438a2438bd4eeb"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "PhotoMap.MapViewController.init(coder: __C.NSCoder) -&gt; Swift.Optional&lt;PhotoMap.MapViewController&gt;"
+                  moduleName = "PhotoMap"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ijaehun/Desktop/RxSwift/PhotoMap/PhotoMap/PhotoMap/ViewController/MapViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "15"
+                  endingLineNumber = "15"
+                  offsetFromSymbolStart = "52">
+               </Location>
+               <Location
+                  uuid = "F4E06964-125C-4A75-9FBE-B7278402E293 - db7e698d934fcdf9"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "PhotoMap.MapViewController.__deallocating_deinit"
+                  moduleName = "PhotoMap"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ijaehun/Desktop/RxSwift/PhotoMap/PhotoMap/PhotoMap/ViewController/MapViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "16">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>
