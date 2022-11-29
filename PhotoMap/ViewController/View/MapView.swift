@@ -10,14 +10,7 @@ import MapKit
 import SnapKit
 import CoreLocation
 
-
-protocol sendAlert: AnyObject {
-    func showAlert(withTitle title: String, message: String)
-    func presentVC()
-}
-
 class MapView: UIView{
-    weak var delegate: sendAlert?
     
     let map = MKMapView()
     
@@ -147,7 +140,7 @@ extension MapView {
     }
     
     func showPermissionsAlert() {
-        delegate?.showAlert(
+        self.findViewController()?.showAlert(
             withTitle: "위치 정보 접근",
             message: "유저의 위치 정보를 사용하기 위해 설정에서 접근권한을 설정하셔야 합니다.")
     }
@@ -173,9 +166,7 @@ extension MapView {
     
     @objc func cameraButtonTapped() {
         let vc = CameraViewController()
-        vc.modalTransitionStyle = .coverVertical
-        vc.modalPresentationStyle = .fullScreen
-        self.findViewController()?.present(vc, animated: true)
+        self.findViewController()?.navigationController?.pushViewController(vc, animated: true)
         print("Tapped")
     }
     
@@ -195,7 +186,7 @@ extension MapView: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         // 위도 경도 받아오기 에러
-        delegate?.showAlert(withTitle: "위치 정보 받아오기 실패", message: "Error:\(error)")
+        self.findViewController()?.showAlert(withTitle: "위치 정보 받아오기 실패", message: "Error:\(error)")
     }
     
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {

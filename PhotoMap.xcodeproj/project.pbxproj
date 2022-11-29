@@ -13,6 +13,8 @@
 		30AF6DEF292F745900D68FB4 /* PhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30AF6DEE292F745900D68FB4 /* PhotoView.swift */; };
 		30AF6DF2292F749D00D68FB4 /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30AF6DF1292F749D00D68FB4 /* Photo.swift */; };
 		30AF6DF6292FAF8600D68FB4 /* Shadow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30AF6DF5292FAF8600D68FB4 /* Shadow.swift */; };
+		30B083512935D7D60074E588 /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30B083502935D7D60074E588 /* Alert.swift */; };
+		30B083532935EE2C0074E588 /* AppApperance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30B083522935EE2C0074E588 /* AppApperance.swift */; };
 		30B7A2FB2934D03F0016ECAD /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30B7A2FA2934D03F0016ECAD /* CameraViewController.swift */; };
 		30E50638292F2DA900A01CA8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E50637292F2DA900A01CA8 /* AppDelegate.swift */; };
 		30E5063A292F2DA900A01CA8 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E50639292F2DA900A01CA8 /* SceneDelegate.swift */; };
@@ -30,6 +32,8 @@
 		30AF6DEE292F745900D68FB4 /* PhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoView.swift; sourceTree = "<group>"; };
 		30AF6DF1292F749D00D68FB4 /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
 		30AF6DF5292FAF8600D68FB4 /* Shadow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shadow.swift; sourceTree = "<group>"; };
+		30B083502935D7D60074E588 /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
+		30B083522935EE2C0074E588 /* AppApperance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppApperance.swift; sourceTree = "<group>"; };
 		30B7A2FA2934D03F0016ECAD /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 		30E50634292F2DA800A01CA8 /* PhotoMap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhotoMap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		30E50637292F2DA900A01CA8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -72,6 +76,7 @@
 				30AF6DEC292F72D300D68FB4 /* MapView.swift */,
 				30AF6DEE292F745900D68FB4 /* PhotoView.swift */,
 				30AF6DF5292FAF8600D68FB4 /* Shadow.swift */,
+				30B083502935D7D60074E588 /* Alert.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -108,6 +113,7 @@
 				30AF6DE8292F6ED800D68FB4 /* ViewController */,
 				30AF6DF0292F746800D68FB4 /* Model */,
 				30E50637292F2DA900A01CA8 /* AppDelegate.swift */,
+				30B083522935EE2C0074E588 /* AppApperance.swift */,
 				30E50639292F2DA900A01CA8 /* SceneDelegate.swift */,
 				30E50640292F2DAA00A01CA8 /* Assets.xcassets */,
 				30E50642292F2DAA00A01CA8 /* LaunchScreen.storyboard */,
@@ -255,6 +261,8 @@
 				30AF6DED292F72D300D68FB4 /* MapView.swift in Sources */,
 				30E5063C292F2DA900A01CA8 /* ViewController.swift in Sources */,
 				30E50638292F2DA900A01CA8 /* AppDelegate.swift in Sources */,
+				30B083512935D7D60074E588 /* Alert.swift in Sources */,
+				30B083532935EE2C0074E588 /* AppApperance.swift in Sources */,
 				30AF6DEA292F715F00D68FB4 /* MapViewController.swift in Sources */,
 				30E5063A292F2DA900A01CA8 /* SceneDelegate.swift in Sources */,
 			);

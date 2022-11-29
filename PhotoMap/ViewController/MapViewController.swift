@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class MapViewController: UIViewController, sendAlert {
+class MapViewController: UIViewController {
 
     private var mapView = MapView()
     
@@ -22,12 +22,15 @@ class MapViewController: UIViewController, sendAlert {
 extension MapViewController {
     private func setupLayout() {
         title = "Map"
+        navigationController?.navigationBar.prefersLargeTitles = true
         self.view.addSubview(mapView)
         mapView.snp.makeConstraints{
             $0.top.bottom.leading.trailing.equalToSuperview()
         }
     }
-    
+}
+
+extension UIViewController {
     func showAlert(withTitle title: String, message: String) {
         DispatchQueue.main.async {
             let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
@@ -35,12 +38,4 @@ extension MapViewController {
             self.present(alertController, animated: true)
         }
     }
-    
-    func presentVC() {
-        let vc = CameraViewController()
-        vc.modalTransitionStyle = .coverVertical
-        vc.modalPresentationStyle = .fullScreen
-        self.present(vc, animated: true)
-    }
-    
 }
