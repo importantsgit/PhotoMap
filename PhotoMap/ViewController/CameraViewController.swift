@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SnapKit
 import AVFoundation
 
 class CameraViewController: UIViewController {
@@ -19,7 +20,17 @@ class CameraViewController: UIViewController {
 //        return button
 //    }()
     
+    lazy private var takePhotoButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setImage(UIImage(named: "photo")/*?.withRenderingMode(.alwaysOriginal)*/, for: .normal)
+        button.addTarget(self, action: #selector(handleTakePhoto), for: .touchUpInside)
+        return button
+    }()
     
+    override func viewWillAppear(_ animated: Bool) {
+        checkPermissions()
+        setupCameraLiveView()
+    }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
@@ -28,10 +39,7 @@ class CameraViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemBackground
-        setupLayout()
-        checkPermissions()
-        setupCameraLiveView()
+  
     }
 }
 
@@ -40,8 +48,19 @@ extension CameraViewController {
     
     private func setupLayout() {
         title = ""
+        view.backgroundColor = .black
         
+        [takePhotoButton].forEach{
+            view.addSubview($0)
+        }
+
+        takePhotoButton.snp.makeConstraints{
+            $0.bottom.equalToSuperview().inset(24)
+            $0.width.height.equalTo(150)
+            $0.centerX.equalToSuperview()
+        }
     }
+    
     private func setupCameraLiveView() {
         captureSession.sessionPreset = .hd1280x720
         
@@ -71,9 +90,8 @@ extension CameraViewController {
                 guard let self = self else {return}
                 self.captureSession.startRunning()
             }
-            
-            // TODO: setupUI 작성
-            //self.setupUI()
+            setupLayout()
+
         }
     }
     
@@ -103,8 +121,23 @@ extension CameraViewController {
             message: "유저의 카메라를 사용하기 위해 설정에서 접근권한을 설정하셔야 합니다.")
     }
     
-    @objc func backButtonTapped() {
-        self.dismiss(animated: true)
+    @objc private func handleTakePhoto() {
+        let photoSetting = AVCapturePhotoSettings()
+        if let photoPreviewType = photoSetting.availablePreviewPhotoPixelFormatTypes.first {
+            photoSetting.previewPhotoFormat = [kCVPixelBufferPixelFormatTypeKey as String: photoPreviewType]
+            photoOutput.capturePhoto(with: photoSetting, delegate: self)
+        }
+    }
+}
+
+extension CameraViewController: AVCapturePhotoCaptureDelegate {
+    func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
+        guard let imageData = photo.fileDataRepresentation() else { return }
+        let previewImage = UIImage(data: imageData)
+        
+        let vc = PhotoPreviewViewController()
+        vc.photoImageView.image = previewImage
+        self.navigationController?.pushViewController(vc, animated: false)
     }
 }
 
