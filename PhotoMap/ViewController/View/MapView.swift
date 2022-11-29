@@ -67,7 +67,7 @@ class MapView: UIView{
         }
         
         button.snp.makeConstraints{
-            $0.bottom.equalToSuperview().inset(24)
+            $0.bottom.equalToSuperview().inset(32)
             $0.trailing.equalToSuperview().inset(24)
             $0.width.height.equalTo(64)
             $0.top.equalTo(cameraButton.snp.bottom).offset(16)

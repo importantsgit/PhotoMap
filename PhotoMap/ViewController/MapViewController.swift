@@ -31,10 +31,10 @@ extension MapViewController {
 }
 
 extension UIViewController {
-    func showAlert(withTitle title: String, message: String) {
+    func showAlert(withTitle title: String, message: String,_ buttonText: String = "OK") {
         DispatchQueue.main.async {
             let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-            alertController.addAction(UIAlertAction(title: "OK", style: .default))
+            alertController.addAction(UIAlertAction(title: buttonText, style: .default))
             self.present(alertController, animated: true)
         }
     }

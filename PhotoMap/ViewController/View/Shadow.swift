@@ -1,6 +1,6 @@
 import UIKit
 
-extension UIButton {
+extension UIView {
     // Sketch 스타일의 그림자를 생성하는 유틸리티 함수
     func applyShadow(
         color: UIColor = .black,
@@ -24,3 +24,4 @@ extension UITabBar {
         UITabBar.appearance().backgroundColor = UIColor.white
     }
 }
+
