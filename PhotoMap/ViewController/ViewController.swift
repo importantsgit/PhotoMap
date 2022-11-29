@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 
 class ViewController: UIViewController {
-    
+
     let label: UILabel = {
        
         let label = UILabel()
@@ -71,4 +71,6 @@ extension ViewController {
         tabbarVC.modalPresentationStyle = .fullScreen
         self.present(tabbarVC, animated: true)
     }
+    
+
 }

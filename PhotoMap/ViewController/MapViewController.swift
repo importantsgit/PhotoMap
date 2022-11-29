@@ -10,8 +10,6 @@ import SnapKit
 
 class MapViewController: UIViewController, sendAlert {
 
-
-    
     private var mapView = MapView()
     
     override func viewDidLoad() {
@@ -37,4 +35,12 @@ extension MapViewController {
             self.present(alertController, animated: true)
         }
     }
+    
+    func presentVC() {
+        let vc = CameraViewController()
+        vc.modalTransitionStyle = .coverVertical
+        vc.modalPresentationStyle = .fullScreen
+        self.present(vc, animated: true)
+    }
+    
 }

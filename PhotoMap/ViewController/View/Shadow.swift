@@ -4,7 +4,7 @@ extension UIButton {
     // Sketch 스타일의 그림자를 생성하는 유틸리티 함수
     func applyShadow(
         color: UIColor = .black,
-        alpha: Float = 0.8,
+        alpha: Float = 0.5,
         x: CGFloat = 2,
         y: CGFloat = 2,
         blur: CGFloat = 10
