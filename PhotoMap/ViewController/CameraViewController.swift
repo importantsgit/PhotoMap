@@ -9,23 +9,96 @@ import UIKit
 import SnapKit
 import AVFoundation
 
+
+enum Mode {
+    case view
+    case select
+}
+
 class CameraViewController: UIViewController {
     
-    private var captureSession = AVCaptureSession()
-    private let photoOutput = AVCapturePhotoOutput()
-    var photoList: [UIImage] = []
+
     
+    // MARK: - Variable
+    
+    var mMode: Mode = .view {
+        didSet {
+            switch mMode {
+            case .view:
+                DispatchQueue.global(qos: .background).async { [weak self] in
+                    guard let self = self else {return}
+                    self.captureSession.startRunning()
+                }
+
+                takePhotoButton.isEnabled = true
+                takePhotoButton.isHidden = false
+                selectButtonItem.title = "Select"
+                self.navigationItem.rightBarButtonItems = [selectButtonItem]
+                collectionView.allowsMultipleSelection = false
+                collectionView.snp.remakeConstraints{
+                    $0.height.equalTo(120)
+                    $0.leading.trailing.equalToSuperview()
+                }
+
+
+                collectionView.reloadData()
+                UIView.animate(withDuration: 0.2,delay: 0,options: .curveEaseInOut ,animations: { [weak self] in
+                    guard let self = self else { return }
+                    self.view.layoutIfNeeded()
+                },completion: nil)
+                
+            case .select:
+                captureSession.stopRunning()
+                takePhotoButton.isEnabled = false
+                takePhotoButton.isHidden = true
+                selectButtonItem.title = "Cancel"
+                self.navigationItem.rightBarButtonItems = [selectButtonItem, deleteButtonItem]
+                collectionView.allowsMultipleSelection = true
+                collectionView.snp.remakeConstraints{
+                    $0.top.equalToSuperview().inset(150)
+                    $0.leading.trailing.equalToSuperview()
+                }
+
+                collectionView.reloadData()
+                UIView.animate(withDuration: 0.2,delay: 0,options: .curveEaseInOut ,animations: { [weak self] in
+                    guard let self = self else { return }
+                    self.view.layoutIfNeeded()
+                },completion: nil)
+            }
+        }
+    }
+    
+    private var captureSession = AVCaptureSession()
+    
+    private let photoOutput = AVCapturePhotoOutput()
+    
+    var photoList: [UIImage] = [] {
+        didSet {
+            if photoList.count == 0 {
+                numberLabel.layer.opacity = 0
+                maxLabel.layer.opacity = 0
+            } else {
+                numberLabel.layer.opacity = 1
+                maxLabel.layer.opacity = 1
+                numberLabel.text = "\(photoList.count)"
+            }
+            UIView.animate(withDuration: 0.2,delay: 0,options: .curveEaseInOut ,animations: { [weak self] in
+                guard let self = self else { return }
+                self.view.layoutIfNeeded()
+            },completion: nil)
+        }
+    }
+    
+    // PhotoView 띄우기 위해 변수 설정
     var photoView = PhotoView()
     
-    var dictionarySelectedIndexPath: [IndexPath : Bool] = [:]
-    
+    // snapKit에 상수값만 받기 때문에 변수로 설정
     var width: CGFloat?
     var height: CGFloat?
-
-    var selectMode = false
-    var lastSelectedCell = IndexPath()
     
-    var isSelectedArray: [Bool] = []
+    var dictionarySelectedIndexPath: [IndexPath: Bool] = [:]
+    
+    //MARK: - Components
     
     private lazy var button: UIButton = {
         // lazy를 입력해야지 addTarget이 적용됨
@@ -48,7 +121,6 @@ class CameraViewController: UIViewController {
     
     lazy private var takePhotoButton: UIButton = {
         let button = UIButton()
-        
         button.addTarget(self, action: #selector(handleTakePhoto), for: .touchUpInside)
         let image = UIImageView(image: UIImage(named: "photo"))
         button.addSubview(image)
@@ -57,6 +129,42 @@ class CameraViewController: UIViewController {
         }
         
         return button
+    }()
+    
+    private let stackView: UIStackView = {
+        let stackView = UIStackView()
+        
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .horizontal
+        stackView.alignment = .center
+        stackView.distribution = .equalCentering
+        stackView.spacing = 4
+        
+        return stackView
+    }()
+    
+    private var numberLabel: UILabel = {
+        let label = UILabel()
+        label.text = "0"
+        label.font = UIFont.boldSystemFont(ofSize: 24)
+        label.textColor = .white
+        label.applyShadow()
+        label.layer.opacity = 0
+        
+        return label
+        
+    }()
+    
+    private var maxLabel: UILabel = {
+        let label = UILabel()
+        label.text = "/ 8"
+        label.font = UIFont.boldSystemFont(ofSize: 24)
+        label.textColor = .white
+        label.applyShadow()
+        label.layer.opacity = 0
+        
+        return label
+        
     }()
     
     private lazy var collectionView: UICollectionView = {
@@ -77,40 +185,52 @@ class CameraViewController: UIViewController {
         return collectionView
     }()
     
+    //MARK: - NavigationBarItem
     lazy var deleteButtonItem: UIBarButtonItem = {
-        let button = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelButtonTapped))
+        let button = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(deleteButtonItemTapped))
         
         return button
     }()
     
+    lazy var selectButtonItem: UIBarButtonItem = {
+        let button = UIBarButtonItem(title: "선택",style: .plain, target: self, action: #selector(selectButtonItemTapped))
+        
+        return button
+    }()
+    
+    //MARK: - ViewWillAppear
     override func viewWillAppear(_ animated: Bool) {
         checkPermissions()
 
     }
-    
+    //MARK: - viewWillDisappear (stopRunning)
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         captureSession.stopRunning()
     }
     
+    //MARK: - viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
         setupCameraLiveView()
         width = view.frame.width
         height = view.frame.height
-        navigationItem.rightBarButtonItems = [deleteButtonItem,editButtonItem]
-        navigationItem.rightBarButtonItem?.isHidden = true
+        setupBarButtonItems()
     }
 }
 
+//MARK: - extension
 extension CameraViewController {
     
+    private func setupBarButtonItems() {
+        navigationItem.rightBarButtonItems = [selectButtonItem]
+    }
     
     private func setupLayout() {
         title = ""
         view.backgroundColor = .black
         
-        [takePhotoButton,button, collectionView, photoView].forEach{
+        [takePhotoButton, button, stackView, collectionView, photoView].forEach{
             view.addSubview($0)
         }
 
@@ -121,9 +241,20 @@ extension CameraViewController {
             $0.top.equalTo(collectionView.snp.bottom).offset(32)
         }
         
+        stackView.snp.makeConstraints{
+            $0.leading.equalTo(collectionView).offset(36)
+            $0.bottom.equalToSuperview().inset(48)
+            $0.width.equalTo(48)
+            $0.height.equalTo(40)
+        }
+        
+        [numberLabel, maxLabel].forEach{
+            stackView.addArrangedSubview($0)
+        }
+        
         collectionView.snp.makeConstraints{
             $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(100)
+            $0.height.equalTo(120)
         }
         
         photoView.snp.makeConstraints{
@@ -142,6 +273,33 @@ extension CameraViewController {
         }
     }
     
+    @objc func buttonTapped() {
+        self.dismiss(animated: true)
+    }
+    
+    // trashButtonItem클릭 시 반응
+    @objc func deleteButtonItemTapped() {
+        var deleteNeededIndexPaths: [IndexPath] = []
+        for (key, value) in dictionarySelectedIndexPath{
+            if value {
+                deleteNeededIndexPaths.append(key)
+            }
+        }
+        
+        for i in deleteNeededIndexPaths.sorted(by: { $0.item > $1.item}) {
+            photoList.remove(at: i.item)
+        }
+        collectionView.deleteItems(at: deleteNeededIndexPaths)
+        dictionarySelectedIndexPath.removeAll()
+    }
+    
+    //selectButtonItem클릭 시 반응
+    @objc func selectButtonItemTapped() {
+        mMode = mMode == .view ? .select : .view
+    }
+    
+    // MARK: setupCameraLiveView
+    // 사진을 찍기 위한 카메라 작업
     private func setupCameraLiveView() {
         captureSession.sessionPreset = .hd1280x720
         
@@ -185,11 +343,9 @@ extension CameraViewController {
                     showPermissionsAlert()
                 }
             }
-            
             // 2
         case .denied, .restricted:
             showPermissionsAlert()
-            
             // 3
         default:
             return
@@ -209,15 +365,9 @@ extension CameraViewController {
                 photoOutput.capturePhoto(with: photoSetting, delegate: self)
             }
     }
-    
-    @objc func buttonTapped() {
-        self.dismiss(animated: true)
-    }
-    
-    @objc func cancelButtonTapped() {
-        
-    }
 }
+
+//MARK: - AVCapturePhotoCaptureDelegate
 
 extension CameraViewController: AVCapturePhotoCaptureDelegate {
     func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
@@ -239,6 +389,8 @@ extension CameraViewController: AVCapturePhotoCaptureDelegate {
     }
 }
 
+//MARK: - UICollectionViewDataSource
+
 extension CameraViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         photoList.count
@@ -250,33 +402,38 @@ extension CameraViewController: UICollectionViewDataSource {
         }
         if photoList.count > 0 {
             cell.setup(image: photoList[indexPath.row], text: "\(indexPath.row + 1)")
-            cell.isEditing = false
+            cell.isSelected = false
+            cell.isHighlighted = false
         }
-        
-
         return cell
     }
 }
 
+//MARK: - UICollectionViewDelegateFlowLayout
+
 extension CameraViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let size = collectionView.frame.height
+        var size = collectionView.frame.height - 20
+        if mMode == .select {
+            size = (collectionView.frame.width / 2) - 32.0
+        }
         return CGSize(width: size, height: size)
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        UIEdgeInsets(top: 0.0, left: 16.0, bottom: 0.0, right: 16.0)
+        UIEdgeInsets(top: 10.0, left: 16.0, bottom: 10.0, right: 16.0)
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         16
     }
     
-    func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-        print("Tapped")
-        if !isEditing {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        switch mMode {
+        case .view:
+            //TODO: 이 곳에 select 클릭 안할 시 구현할 메소드 작성
+            collectionView.deselectItem(at: indexPath, animated: true)
             photoView.setImageView(image: photoList[indexPath.row], indexPathRow: indexPath.row)
-            print("width: \(view.frame.width)")
             photoView.layer.opacity = 1
             self.navigationController?.navigationBar.isHidden = true
             self.photoView.layer.opacity = 1
@@ -293,52 +450,33 @@ extension CameraViewController: UICollectionViewDelegateFlowLayout {
                 guard let self = self else { return }
                 self.photoView.setupLayout()
             })
-        } else {
             
-            
-            if let cell = collectionView.cellForItem(at: indexPath) as? PhotoCollectionViewCell {
-                cell.isEditing.toggle()
-
-            }
+        case .select:
+            //TODO: 이 곳에 select 클릭 시 구현할 메소드 작성
+            dictionarySelectedIndexPath[indexPath] = true
         }
-        return true
     }
     
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
-  
+    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+        if mMode == .select {
+            dictionarySelectedIndexPath[indexPath] = false
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
     }
     
     func collectionView(_ collectionView: UICollectionView, shouldBeginMultipleSelectionInteractionAt indexPath: IndexPath) -> Bool {
-        // Returning `true` automatically sets `collectionView.isEditing`
-        // to `true`. The app sets it to `false` after the user taps the Done button.
+
         return true
     }
 
     func collectionView(_ collectionView: UICollectionView, didBeginMultipleSelectionInteractionAt indexPath: IndexPath) {
         setEditing(true, animated: true)
-//        if let cell = collectionView.cellForItem(at: indexPath) as? PhotoCollectionViewCell {
-//            cell.isEditing.toggle()
-//        }
     }
     
-    override func setEditing(_ editing: Bool, animated: Bool) {
-        super.setEditing(editing, animated: animated)
-        self.collectionView.allowsMultipleSelection = editing
-        self.collectionView.indexPathsForVisibleItems.forEach{ (indexPath) in
-//            if let cell = collectionView.cellForItem(at: indexPath) as?         PhotoCollectionViewCell {
-//                cell.isEditing = editing
-//            }
-        }
-    }
-
     func collectionViewDidEndMultipleSelectionInteraction(_ collectionView: UICollectionView) {
         
-        self.collectionView.indexPathsForVisibleItems.forEach{ (indexPath) in
-            if let cell = collectionView.cellForItem(at: indexPath) as?         PhotoCollectionViewCell {
-                cell.isEditing.toggle()
-            }
-        }
     }
 }
 
@@ -369,9 +507,7 @@ extension CameraViewController: ChildViewDelegate {
         
         UIView.animate(withDuration: 0.2,delay: 0,options: .curveEaseInOut ,animations: { [weak self] in
             guard let self = self else { return }
-
             self.view.layoutIfNeeded()
-
         },completion: nil)
     }
     
@@ -385,7 +521,7 @@ extension CameraViewController: ChildViewDelegate {
             $0.height.equalTo(5)
         }
         
-        UIView.animate(withDuration: 0.2,delay: 0,options: .curveEaseInOut ,animations: { [weak self] in
+        UIView.animate(withDuration: 0.2,delay: 0, options: .curveEaseInOut ,animations: { [weak self] in
             guard let self = self else { return }
 
             self.view.layoutIfNeeded()
