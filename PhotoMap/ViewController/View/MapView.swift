@@ -20,11 +20,7 @@ class MapView: UIView{
     
     var locationManager = CLLocationManager()
     
-    private var photos: [Photo] = [] {
-        didSet {
-            print(photos.count)
-        }
-    }
+    private var photos: [Photo] = [] 
     
     var photolist: [UIImage] = [] {
         didSet {
@@ -79,7 +75,9 @@ class MapView: UIView{
         map.isScrollEnabled = true
         map.isRotateEnabled = true
         map.register(PhotoAnnotationView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
-        deleteing()
+        
+        //MARK: test!!
+        //deleteing()
  
         [map, button, cameraButton].forEach{
             self.addSubview($0)
@@ -134,7 +132,7 @@ extension MapView {
     private func checkPermissions() {
         switch locationManager.authorizationStatus {
         case .authorizedAlways, .authorizedWhenInUse:
-            print("GPS 권한 설정됨")
+            // print("GPS 권한 설정됨")
             self.locationManager.startUpdatingLocation() // 중요!
         case .denied:
             // 거부 상태라면 알럿을 띄워 허용하도록 유도하는 코드를 넣을 수 있다.
@@ -152,7 +150,7 @@ extension MapView {
             locationManager.requestTemporaryFullAccuracyAuthorization(withPurposeKey: "Navigation")
         case .fullAccuracy:
             // 이미 정확한 위치를 공유하고 있는데 또 요청하면 오류가 발생한다.
-            print("정확한 값 가져오는 중")
+            // print("정확한 값 가져오는 중")
             break
         @unknown default:
             break
@@ -247,6 +245,8 @@ extension MapView: MKMapViewDelegate{
         
         let vc = ClickCallOutViewController()
         vc.photo = photo
+        
+        self.findViewController()?.view.opacityDownAnimationPushing(vc: vc)
     }
 }
 

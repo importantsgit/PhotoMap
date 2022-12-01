@@ -15,9 +15,6 @@ final class MapViewController: UIViewController {
 
     var mapView = MapView()
     
-    private var photoList: [Photo] = []
-    
-    
     //MARK: - ViewWillAppear
     override func viewWillAppear(_ animated: Bool) {
         view.layer.opacity = 1
@@ -28,12 +25,17 @@ final class MapViewController: UIViewController {
         setupLayout()
         mapView.setup()
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationItem.largeTitleDisplayMode = .always
+    }
 }
 
 extension MapViewController {
     private func setupLayout() {
         title = "Map"
-        navigationController?.navigationBar.prefersLargeTitles = true
         [mapView].forEach{
             view.addSubview($0)
         }
