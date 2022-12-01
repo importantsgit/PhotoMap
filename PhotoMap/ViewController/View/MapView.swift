@@ -10,14 +10,31 @@ import MapKit
 import SnapKit
 import CoreLocation
 
+
+
 class MapView: UIView{
     
     let map = MKMapView()
     
-    var KoreaCenter = CLLocation()
+    var userCenter = CLLocation()
     
     var locationManager = CLLocationManager()
     
+    private var photos: [Photo] = [] {
+        didSet {
+            print(photos.count)
+        }
+    }
+    
+    var photolist: [UIImage] = [] {
+        didSet {
+            let photo = Photo(title: "안녕", locationName: "양산", discipline: "안녕하세여", coordinate: userCenter.coordinate, imagefile: photolist)
+            photos.append(photo)
+            
+            map.addAnnotations(photos)
+        }
+    }
+
     private lazy var button: UIButton = {
         // lazy를 입력해야지 addTarget이 적용됨
         let button = UIButton()
@@ -61,7 +78,9 @@ class MapView: UIView{
         map.isZoomEnabled = true
         map.isScrollEnabled = true
         map.isRotateEnabled = true
-        
+        map.register(PhotoAnnotationView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
+        deleteing()
+ 
         [map, button, cameraButton].forEach{
             self.addSubview($0)
         }
@@ -99,6 +118,7 @@ extension MapView {
         map.showsUserLocation = true
         ConstrainingTheCamera()
         checkPermissions()
+        map.delegate = self
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest // 거리 정확도 설정
         // 베터리로 동작할 때 권장되는 가장 높은 수준의 정확도
@@ -107,8 +127,8 @@ extension MapView {
         locationManager.distanceFilter = 10
         
         //MARK: map.userlocation을 가져오지 말고 locationManager에서 가져오자!
-        KoreaCenter = locationManager.location ?? CLLocation(latitude: 37.553326059065206, longitude: 126.97277126191183)
-        map.centerToLocation(KoreaCenter)
+        userCenter = locationManager.location ?? CLLocation(latitude: 37.553326059065206, longitude: 126.97277126191183)
+        map.centerToLocation(userCenter)
     }
     
     private func checkPermissions() {
@@ -148,7 +168,7 @@ extension MapView {
 
     func ConstrainingTheCamera() {
         // 자신의 위치로 맵을 이동시키는 메소드
-        let center = KoreaCenter
+        let center = userCenter
         let region = MKCoordinateRegion(
             center: center.coordinate,
             latitudinalMeters: 0.1,
@@ -161,13 +181,13 @@ extension MapView {
     }
     
     @objc func buttonTapped() {
-        map.centerToLocation(KoreaCenter)
+        map.centerToLocation(userCenter)
     }
     
     @objc func cameraButtonTapped() {
         let vc = CameraViewController()
-        self.findViewController()?.navigationController?.pushViewController(vc, animated: true)
-        print("Tapped")
+        vc.userCenter = userCenter
+        self.findViewController()?.view.opacityDownAnimationPushing(vc: vc)
     }
     
 }
@@ -180,7 +200,7 @@ extension MapView: CLLocationManagerDelegate {
 //            print("경도: \(location.coordinate.longitude)")
             let center = CLLocation(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
             
-            KoreaCenter = center
+            userCenter = center
         }
     }
     
@@ -217,27 +237,25 @@ private extension MKMapView {
         setRegion(coordinateRegion, animated: true)
         // MKMapView로 표시되는 영역을 표시하도록 지시
     }
-    
 }
 
-
-// MARK: view에서 다른 뷰컨트롤러로 이동하는 방법
-/*
- 1. UIView에 이 메소드 추가
- 2. UIView내에서 다른 ViewController에 접근하고 싶은 부분에
-   self.findViewController().present(..) 입력하기
-*/
-extension UIView {
-    func findViewController() -> UIViewController? {
-        if let nextResponder = self.next as? UIViewController {
-            return nextResponder
-        } else if let nextResponder = self.next as? UIView {
-            return nextResponder.findViewController()
-        } else {
-            return nil
+extension MapView: MKMapViewDelegate{
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        guard let photo = view.annotation as? Photo else {
+            return
         }
+        
+        let vc = ClickCallOutViewController()
+        vc.photo = photo
     }
 }
 
-// 응답자 체인을 이용하여 뷰컨트롤러 도달할 때까지 상위 뷰로 이동하는 메소드
-// AppDelegate로 계속 진행하게 코드를 바꿀 수 있음
+
+extension MapView {
+    func deleteing() {
+        let photo = Photo(title: "안녕", locationName: "양산", discipline: "안녕하세여", coordinate: userCenter.coordinate, imagefile: [UIImage()])
+        photos.append(photo)
+        
+        map.addAnnotations(photos)
+    }
+}

@@ -7,8 +7,8 @@
 
 import UIKit
 import SnapKit
-
-class PhotoCollectionViewCell: UICollectionViewCell {
+ 
+final class PhotoCollectionViewCell: UICollectionViewCell {
     
     var isEditing: Bool = false {
         didSet {
@@ -21,8 +21,6 @@ class PhotoCollectionViewCell: UICollectionViewCell {
             overrideView.isHidden = !isHighlighted
         }
     }
-    
-    
     
     override var isSelected: Bool {
         didSet {
@@ -52,33 +50,20 @@ class PhotoCollectionViewCell: UICollectionViewCell {
         return imageView
     }()
     
-    lazy var label: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 16)
-        label.textColor = .white
-
-        return label
-    }()
-    
-    func setup(image: UIImage, text: String) {
+    func setup(image: UIImage) {
         setupLayout()
         imageView.image = image
-        label.text = text
     }
 }
 
 private extension PhotoCollectionViewCell {
     func setupLayout() {
-        [imageView, label, overrideView, checkView].forEach{
+        [imageView, overrideView, checkView].forEach{
             self.addSubview($0)
         }
         
         imageView.snp.makeConstraints{
             $0.edges.equalToSuperview()
-        }
-        
-        label.snp.makeConstraints{
-            $0.top.leading.equalToSuperview().inset(4)
         }
         
         checkView.snp.makeConstraints{

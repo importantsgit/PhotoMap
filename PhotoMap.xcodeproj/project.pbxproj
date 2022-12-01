@@ -7,16 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		30AF6DE7292F6BD000D68FB4 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30AF6DE6292F6BD000D68FB4 /* TabBarViewController.swift */; };
 		30AF6DEA292F715F00D68FB4 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30AF6DE9292F715F00D68FB4 /* MapViewController.swift */; };
 		30AF6DED292F72D300D68FB4 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30AF6DEC292F72D300D68FB4 /* MapView.swift */; };
 		30AF6DEF292F745900D68FB4 /* PhotoPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30AF6DEE292F745900D68FB4 /* PhotoPreviewViewController.swift */; };
 		30AF6DF2292F749D00D68FB4 /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30AF6DF1292F749D00D68FB4 /* Photo.swift */; };
-		30AF6DF6292FAF8600D68FB4 /* Shadow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30AF6DF5292FAF8600D68FB4 /* Shadow.swift */; };
 		30B083512935D7D60074E588 /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30B083502935D7D60074E588 /* Alert.swift */; };
 		30B083532935EE2C0074E588 /* AppApperance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30B083522935EE2C0074E588 /* AppApperance.swift */; };
 		30B08355293625720074E588 /* PhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30B08354293625720074E588 /* PhotoCollectionViewCell.swift */; };
 		30B0835929364C010074E588 /* PhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30B0835829364C010074E588 /* PhotoView.swift */; };
+		30B1B25229389D6C00355F49 /* PhotoSaveViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30B1B25129389D6C00355F49 /* PhotoSaveViewController.swift */; };
+		30B1B2542938ABB500355F49 /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30B1B2532938ABB500355F49 /* UIView.swift */; };
+		30B1B2562938E65F00355F49 /* PhotoAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30B1B2552938E65F00355F49 /* PhotoAnnotationView.swift */; };
+		30B1B2592938EE0400355F49 /* ClickCallOutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30B1B2582938EE0400355F49 /* ClickCallOutViewController.swift */; };
 		30B7A2FB2934D03F0016ECAD /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30B7A2FA2934D03F0016ECAD /* CameraViewController.swift */; };
 		30E50638292F2DA900A01CA8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E50637292F2DA900A01CA8 /* AppDelegate.swift */; };
 		30E5063A292F2DA900A01CA8 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E50639292F2DA900A01CA8 /* SceneDelegate.swift */; };
@@ -28,16 +30,18 @@
 
 /* Begin PBXFileReference section */
 		1365BEBF0AE7CF63C36FF04F /* Pods-PhotoMap.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PhotoMap.release.xcconfig"; path = "Target Support Files/Pods-PhotoMap/Pods-PhotoMap.release.xcconfig"; sourceTree = "<group>"; };
-		30AF6DE6292F6BD000D68FB4 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		30AF6DE9292F715F00D68FB4 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		30AF6DEC292F72D300D68FB4 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		30AF6DEE292F745900D68FB4 /* PhotoPreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPreviewViewController.swift; sourceTree = "<group>"; };
 		30AF6DF1292F749D00D68FB4 /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
-		30AF6DF5292FAF8600D68FB4 /* Shadow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shadow.swift; sourceTree = "<group>"; };
 		30B083502935D7D60074E588 /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
 		30B083522935EE2C0074E588 /* AppApperance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppApperance.swift; sourceTree = "<group>"; };
 		30B08354293625720074E588 /* PhotoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCollectionViewCell.swift; sourceTree = "<group>"; };
 		30B0835829364C010074E588 /* PhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoView.swift; sourceTree = "<group>"; };
+		30B1B25129389D6C00355F49 /* PhotoSaveViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoSaveViewController.swift; sourceTree = "<group>"; };
+		30B1B2532938ABB500355F49 /* UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
+		30B1B2552938E65F00355F49 /* PhotoAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoAnnotationView.swift; sourceTree = "<group>"; };
+		30B1B2582938EE0400355F49 /* ClickCallOutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClickCallOutViewController.swift; sourceTree = "<group>"; };
 		30B7A2FA2934D03F0016ECAD /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 		30E50634292F2DA800A01CA8 /* PhotoMap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhotoMap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		30E50637292F2DA900A01CA8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -67,10 +71,8 @@
 			children = (
 				30E5063B292F2DA900A01CA8 /* ViewController.swift */,
 				30AF6DE9292F715F00D68FB4 /* MapViewController.swift */,
-				30AF6DE6292F6BD000D68FB4 /* TabBarViewController.swift */,
-				30B7A2FA2934D03F0016ECAD /* CameraViewController.swift */,
-				30B08354293625720074E588 /* PhotoCollectionViewCell.swift */,
-				30AF6DEE292F745900D68FB4 /* PhotoPreviewViewController.swift */,
+				30B1B2582938EE0400355F49 /* ClickCallOutViewController.swift */,
+				30B1B2572938EA8200355F49 /* TakePhotos */,
 				30AF6DEB292F72C700D68FB4 /* View */,
 			);
 			path = ViewController;
@@ -80,9 +82,10 @@
 			isa = PBXGroup;
 			children = (
 				30AF6DEC292F72D300D68FB4 /* MapView.swift */,
-				30AF6DF5292FAF8600D68FB4 /* Shadow.swift */,
 				30B083502935D7D60074E588 /* Alert.swift */,
 				30B0835829364C010074E588 /* PhotoView.swift */,
+				30B1B2532938ABB500355F49 /* UIView.swift */,
+				30B1B2552938E65F00355F49 /* PhotoAnnotationView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -93,6 +96,17 @@
 				30AF6DF1292F749D00D68FB4 /* Photo.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		30B1B2572938EA8200355F49 /* TakePhotos */ = {
+			isa = PBXGroup;
+			children = (
+				30B7A2FA2934D03F0016ECAD /* CameraViewController.swift */,
+				30B08354293625720074E588 /* PhotoCollectionViewCell.swift */,
+				30AF6DEE292F745900D68FB4 /* PhotoPreviewViewController.swift */,
+				30B1B25129389D6C00355F49 /* PhotoSaveViewController.swift */,
+			);
+			path = TakePhotos;
 			sourceTree = "<group>";
 		};
 		30E5062B292F2DA800A01CA8 = {
@@ -259,16 +273,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				30AF6DF6292FAF8600D68FB4 /* Shadow.swift in Sources */,
 				30B08355293625720074E588 /* PhotoCollectionViewCell.swift in Sources */,
 				30B7A2FB2934D03F0016ECAD /* CameraViewController.swift in Sources */,
 				30B0835929364C010074E588 /* PhotoView.swift in Sources */,
+				30B1B2562938E65F00355F49 /* PhotoAnnotationView.swift in Sources */,
 				30AF6DF2292F749D00D68FB4 /* Photo.swift in Sources */,
-				30AF6DE7292F6BD000D68FB4 /* TabBarViewController.swift in Sources */,
 				30AF6DEF292F745900D68FB4 /* PhotoPreviewViewController.swift in Sources */,
 				30AF6DED292F72D300D68FB4 /* MapView.swift in Sources */,
+				30B1B25229389D6C00355F49 /* PhotoSaveViewController.swift in Sources */,
+				30B1B2592938EE0400355F49 /* ClickCallOutViewController.swift in Sources */,
 				30E5063C292F2DA900A01CA8 /* ViewController.swift in Sources */,
 				30E50638292F2DA900A01CA8 /* AppDelegate.swift in Sources */,
+				30B1B2542938ABB500355F49 /* UIView.swift in Sources */,
 				30B083512935D7D60074E588 /* Alert.swift in Sources */,
 				30B083532935EE2C0074E588 /* AppApperance.swift in Sources */,
 				30AF6DEA292F715F00D68FB4 /* MapViewController.swift in Sources */,

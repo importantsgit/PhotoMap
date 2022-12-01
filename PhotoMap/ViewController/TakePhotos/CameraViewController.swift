@@ -8,6 +8,8 @@
 import UIKit
 import SnapKit
 import AVFoundation
+import MapKit
+import SnapKit
 
 
 enum Mode {
@@ -15,9 +17,12 @@ enum Mode {
     case select
 }
 
-class CameraViewController: UIViewController {
-    
+enum isFlash {
+    case on
+    case off
+}
 
+final class CameraViewController: UIViewController {
     
     // MARK: - Variable
     
@@ -32,8 +37,10 @@ class CameraViewController: UIViewController {
 
                 takePhotoButton.isEnabled = true
                 takePhotoButton.isHidden = false
+                button.isEnabled = true
+                button.isHidden = false
                 selectButtonItem.title = "Select"
-                self.navigationItem.rightBarButtonItems = [selectButtonItem]
+                self.navigationItem.rightBarButtonItems = [selectButtonItem, flashButtonItem]
                 collectionView.allowsMultipleSelection = false
                 collectionView.snp.remakeConstraints{
                     $0.height.equalTo(120)
@@ -51,6 +58,8 @@ class CameraViewController: UIViewController {
                 captureSession.stopRunning()
                 takePhotoButton.isEnabled = false
                 takePhotoButton.isHidden = true
+                button.isEnabled = false
+                button.isHidden = true
                 selectButtonItem.title = "Cancel"
                 self.navigationItem.rightBarButtonItems = [selectButtonItem, deleteButtonItem]
                 collectionView.allowsMultipleSelection = true
@@ -68,26 +77,46 @@ class CameraViewController: UIViewController {
         }
     }
     
+    var isFlash: isFlash = .off {
+        didSet {
+            switch isFlash {
+            case .on:
+                toggleTorch(on: true)
+            case .off:
+                toggleTorch(on: false)
+            }
+        }
+    }
+    
     private var captureSession = AVCaptureSession()
     
     private let photoOutput = AVCapturePhotoOutput()
     
+    private var cameraLayer: AVCaptureVideoPreviewLayer = {
+        let cameraLayer =  AVCaptureVideoPreviewLayer()
+        cameraLayer.backgroundColor = UIColor.systemBackground.cgColor
+        
+        return cameraLayer
+    }()
+    
+    let captureDevice = AVCaptureDevice.default(for: AVMediaType.video)
+    
     var photoList: [UIImage] = [] {
         didSet {
             if photoList.count == 0 {
-                numberLabel.layer.opacity = 0
-                maxLabel.layer.opacity = 0
+                stackView.layer.opacity = 0
             } else {
-                numberLabel.layer.opacity = 1
-                maxLabel.layer.opacity = 1
+                stackView.layer.opacity = 1
                 numberLabel.text = "\(photoList.count)"
             }
-            UIView.animate(withDuration: 0.2,delay: 0,options: .curveEaseInOut ,animations: { [weak self] in
+            UIView.animate(withDuration: 0.5,delay: 0,options: .curveEaseInOut ,animations: { [weak self] in
                 guard let self = self else { return }
                 self.view.layoutIfNeeded()
             },completion: nil)
         }
     }
+    
+    var userCenter = CLLocation()
     
     // PhotoView 띄우기 위해 변수 설정
     var photoView = PhotoView()
@@ -139,6 +168,7 @@ class CameraViewController: UIViewController {
         stackView.alignment = .center
         stackView.distribution = .equalCentering
         stackView.spacing = 4
+        stackView.layer.opacity = 0
         
         return stackView
     }()
@@ -149,7 +179,6 @@ class CameraViewController: UIViewController {
         label.font = UIFont.boldSystemFont(ofSize: 24)
         label.textColor = .white
         label.applyShadow()
-        label.layer.opacity = 0
         
         return label
         
@@ -157,11 +186,10 @@ class CameraViewController: UIViewController {
     
     private var maxLabel: UILabel = {
         let label = UILabel()
-        label.text = "/ 8"
+        label.text = "/ 9"
         label.font = UIFont.boldSystemFont(ofSize: 24)
         label.textColor = .white
         label.applyShadow()
-        label.layer.opacity = 0
         
         return label
         
@@ -198,11 +226,19 @@ class CameraViewController: UIViewController {
         return button
     }()
     
+    lazy var flashButtonItem: UIBarButtonItem = {
+        let button = UIBarButtonItem(image: UIImage(systemName: "lightbulb.led"), style: .plain, target: self, action: #selector(flashButtonTapped))
+        
+        return button
+    }()
+    
     //MARK: - ViewWillAppear
     override func viewWillAppear(_ animated: Bool) {
+        view.layer.opacity = 1
         checkPermissions()
-
+        setupCameraLiveView()
     }
+    
     //MARK: - viewWillDisappear (stopRunning)
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
@@ -212,10 +248,10 @@ class CameraViewController: UIViewController {
     //MARK: - viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupCameraLiveView()
         width = view.frame.width
         height = view.frame.height
         setupBarButtonItems()
+        
     }
 }
 
@@ -223,12 +259,17 @@ class CameraViewController: UIViewController {
 extension CameraViewController {
     
     private func setupBarButtonItems() {
-        navigationItem.rightBarButtonItems = [selectButtonItem]
+        navigationItem.rightBarButtonItems = [selectButtonItem, flashButtonItem]
     }
     
     private func setupLayout() {
         title = ""
-        view.backgroundColor = .black
+        view.backgroundColor = .systemBackground
+        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
+        
+        cameraLayer.frame = self.view.frame
+        cameraLayer.videoGravity = .resizeAspectFill
+        self.view.layer.addSublayer(cameraLayer)
         
         [takePhotoButton, button, stackView, collectionView, photoView].forEach{
             view.addSubview($0)
@@ -271,10 +312,15 @@ extension CameraViewController {
             $0.trailing.equalToSuperview().inset(24)
             $0.width.height.equalTo(64)
         }
+        
+
     }
     
     @objc func buttonTapped() {
-        self.dismiss(animated: true)
+        let vc = PhotoSaveViewController()
+        vc.photoList = photoList
+        vc.userCenter = userCenter
+        view.opacityDownAnimationPushing(vc: vc)
     }
     
     // trashButtonItem클릭 시 반응
@@ -298,13 +344,17 @@ extension CameraViewController {
         mMode = mMode == .view ? .select : .view
     }
     
+    @objc func flashButtonTapped() {
+        isFlash = isFlash == .on ? .off : .on
+    }
+    
     // MARK: setupCameraLiveView
     // 사진을 찍기 위한 카메라 작업
     private func setupCameraLiveView() {
         captureSession.sessionPreset = .hd1280x720
         
         // MARK: making input
-        if let captureDevice = AVCaptureDevice.default(for: AVMediaType.video) {
+        if let captureDevice = captureDevice {
             do {
                 let input = try AVCaptureDeviceInput(device: captureDevice)
                 if captureSession.canAddInput(input) {
@@ -318,10 +368,8 @@ extension CameraViewController {
                 captureSession.addOutput(photoOutput)
             }
             
-            let cameraLayer = AVCaptureVideoPreviewLayer(session: captureSession)
-            cameraLayer.frame = self.view.frame
-            cameraLayer.videoGravity = .resizeAspectFill
-            self.view.layer.addSublayer(cameraLayer)
+            cameraLayer = AVCaptureVideoPreviewLayer(session: captureSession)
+            
             /*
              -[AVCaptureSession startRunning] should be called from background thread. Calling it on the main thread can lead to UI unresponsiveness
              */
@@ -330,10 +378,42 @@ extension CameraViewController {
                 self.captureSession.startRunning()
             }
             setupLayout()
-
         }
     }
     
+    // MARK: - [카메라 플래시 켜기 / 끄기 수행]
+    func toggleTorch(on: Bool) {
+    //디바이스 정보 가져오기
+        guard let captureDevice = captureDevice else { return }
+        //플래시를 지원한다면
+        if captureDevice.hasTorch {
+            do {
+                try captureDevice.lockForConfiguration()
+                //off상태면 on, on상태면 off하기
+                switch captureDevice.torchMode {
+                case .on:
+                    captureDevice.torchMode = .off
+                    flashButtonItem.image = UIImage(
+                        systemName: "lightbulb.led")
+                case .off:
+                    captureDevice.torchMode = .on
+                    flashButtonItem.image = UIImage(
+                        systemName: "lightbulb.led.fill")
+                default:
+                    captureDevice.torchMode = .off
+                    flashButtonItem.image = UIImage(
+                        systemName: "lightbulb.led")
+                }
+                captureDevice.unlockForConfiguration()
+            } catch {
+                print("Torch could not be used")
+            }
+        } else {
+            print("Torch is not available")
+        }
+    }
+    
+    // MARK: - 카메라 권한
     private func checkPermissions() {
         switch AVCaptureDevice.authorizationStatus(for: .video) {
             // 1
@@ -373,11 +453,11 @@ extension CameraViewController: AVCapturePhotoCaptureDelegate {
     func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
         guard let imageData = photo.fileDataRepresentation() else { return }
         let previewImage = UIImage(data: imageData)
-        if photoList.count < 8 {
+        if photoList.count < 9 {
             photoList.append(previewImage!)
             collectionView.reloadData()
         } else {
-            showAlert(withTitle: "사진 갯수 제한", message: "사진은 최대 8장까지 연속으로 찍을 수 있습니다.")
+            showAlert(withTitle: "사진 갯수 제한", message: "사진은 최대 9장까지 연속으로 찍을 수 있습니다.")
         }
         self.navigationItem.rightBarButtonItem?.isHidden = false
 
@@ -401,7 +481,7 @@ extension CameraViewController: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         if photoList.count > 0 {
-            cell.setup(image: photoList[indexPath.row], text: "\(indexPath.row + 1)")
+            cell.setup(image: photoList[indexPath.row])
             cell.isSelected = false
             cell.isHighlighted = false
         }

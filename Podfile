@@ -7,5 +7,7 @@ target 'PhotoMap' do
 
   # Pods for PhotoMap
   pod 'SnapKit'
+  pod 'Kingfisher'
+  pod 'lottie-ios'
 
 end

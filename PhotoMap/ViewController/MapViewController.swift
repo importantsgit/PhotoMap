@@ -7,10 +7,21 @@
 
 import UIKit
 import SnapKit
+import CoreLocation
 
-class MapViewController: UIViewController {
 
-    private var mapView = MapView()
+
+final class MapViewController: UIViewController {
+
+    var mapView = MapView()
+    
+    private var photoList: [Photo] = []
+    
+    
+    //MARK: - ViewWillAppear
+    override func viewWillAppear(_ animated: Bool) {
+        view.layer.opacity = 1
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,10 +34,14 @@ extension MapViewController {
     private func setupLayout() {
         title = "Map"
         navigationController?.navigationBar.prefersLargeTitles = true
-        self.view.addSubview(mapView)
+        [mapView].forEach{
+            view.addSubview($0)
+        }
+
         mapView.snp.makeConstraints{
             $0.top.bottom.leading.trailing.equalToSuperview()
         }
+        
     }
 }
 
@@ -39,3 +54,5 @@ extension UIViewController {
         }
     }
 }
+
+

@@ -66,10 +66,9 @@ extension ViewController {
     }
     
     @objc func moveVC() {
-        let tabbarVC = UINavigationController(rootViewController: MapViewController())
-        tabbarVC.modalTransitionStyle = .crossDissolve
-        tabbarVC.modalPresentationStyle = .fullScreen
-        self.present(tabbarVC, animated: true)
+        let vc = UINavigationController(rootViewController: MapViewController())
+        let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as! SceneDelegate
+        sceneDelegate.window?.rootViewController = vc
     }
     
 

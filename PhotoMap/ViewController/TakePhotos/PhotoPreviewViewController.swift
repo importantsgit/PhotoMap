@@ -13,7 +13,7 @@ protocol ChildViewControllerDelegate {
     func childViewControllerResponse(image: UIImage)
 }
 
-class PhotoPreviewViewController: UIViewController {
+final class PhotoPreviewViewController: UIViewController {
     var delegate: ChildViewControllerDelegate?
     
 
