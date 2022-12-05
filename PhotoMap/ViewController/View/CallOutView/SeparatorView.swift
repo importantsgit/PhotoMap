@@ -21,7 +21,7 @@ final class SeparatorView: UIView {
 
         addSubview(separator)
         separator.snp.makeConstraints {
-            $0.leading.equalToSuperview().inset(16.0)
+            $0.leading.equalToSuperview()
             $0.trailing.equalToSuperview()
             $0.top.equalToSuperview()
             $0.height.equalTo(0.5)

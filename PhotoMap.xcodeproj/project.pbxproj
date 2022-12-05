@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		304CBF18293DF86D008D5645 /* OnBoardSlide.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304CBF17293DF86D008D5645 /* OnBoardSlide.swift */; };
+		304CBF22293E0987008D5645 /* photo.json in Resources */ = {isa = PBXBuildFile; fileRef = 304CBF21293E0987008D5645 /* photo.json */; };
+		304CBF26293E09CA008D5645 /* findlocation.json in Resources */ = {isa = PBXBuildFile; fileRef = 304CBF25293E09CA008D5645 /* findlocation.json */; };
+		304CBF28293E0A99008D5645 /* location.json in Resources */ = {isa = PBXBuildFile; fileRef = 304CBF27293E0A99008D5645 /* location.json */; };
+		304CBF2A293E0FAC008D5645 /* ModifyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304CBF29293E0FAC008D5645 /* ModifyViewController.swift */; };
+		304CBF30293E340F008D5645 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304CBF2F293E340F008D5645 /* DetailView.swift */; };
 		30AF6DEA292F715F00D68FB4 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30AF6DE9292F715F00D68FB4 /* MapViewController.swift */; };
 		30AF6DED292F72D300D68FB4 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30AF6DEC292F72D300D68FB4 /* MapView.swift */; };
 		30AF6DEF292F745900D68FB4 /* PhotoPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30AF6DEE292F745900D68FB4 /* PhotoPreviewViewController.swift */; };
@@ -24,8 +30,6 @@
 		30B1B2622938FE3000355F49 /* SeparatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30B1B2612938FE3000355F49 /* SeparatorView.swift */; };
 		30B1B2642939290A00355F49 /* PhotoDescriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30B1B2632939290A00355F49 /* PhotoDescriptionView.swift */; };
 		30B1B2672939365C00355F49 /* OnBoardingCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30B1B2662939365C00355F49 /* OnBoardingCollectionViewCell.swift */; };
-		30B1B2692939373D00355F49 /* location.json in Resources */ = {isa = PBXBuildFile; fileRef = 30B1B2682939373D00355F49 /* location.json */; };
-		30B1B26B2939374C00355F49 /* photo.json in Resources */ = {isa = PBXBuildFile; fileRef = 30B1B26A2939374C00355F49 /* photo.json */; };
 		30B7A2FB2934D03F0016ECAD /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30B7A2FA2934D03F0016ECAD /* CameraViewController.swift */; };
 		30E50638292F2DA900A01CA8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E50637292F2DA900A01CA8 /* AppDelegate.swift */; };
 		30E5063A292F2DA900A01CA8 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E50639292F2DA900A01CA8 /* SceneDelegate.swift */; };
@@ -37,6 +41,12 @@
 
 /* Begin PBXFileReference section */
 		1365BEBF0AE7CF63C36FF04F /* Pods-PhotoMap.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PhotoMap.release.xcconfig"; path = "Target Support Files/Pods-PhotoMap/Pods-PhotoMap.release.xcconfig"; sourceTree = "<group>"; };
+		304CBF17293DF86D008D5645 /* OnBoardSlide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardSlide.swift; sourceTree = "<group>"; };
+		304CBF21293E0987008D5645 /* photo.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = photo.json; sourceTree = "<group>"; };
+		304CBF25293E09CA008D5645 /* findlocation.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = findlocation.json; sourceTree = "<group>"; };
+		304CBF27293E0A99008D5645 /* location.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = location.json; sourceTree = "<group>"; };
+		304CBF29293E0FAC008D5645 /* ModifyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModifyViewController.swift; sourceTree = "<group>"; };
+		304CBF2F293E340F008D5645 /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
 		30AF6DE9292F715F00D68FB4 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		30AF6DEC292F72D300D68FB4 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		30AF6DEE292F745900D68FB4 /* PhotoPreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPreviewViewController.swift; sourceTree = "<group>"; };
@@ -54,8 +64,6 @@
 		30B1B2612938FE3000355F49 /* SeparatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeparatorView.swift; sourceTree = "<group>"; };
 		30B1B2632939290A00355F49 /* PhotoDescriptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoDescriptionView.swift; sourceTree = "<group>"; };
 		30B1B2662939365C00355F49 /* OnBoardingCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardingCollectionViewCell.swift; sourceTree = "<group>"; };
-		30B1B2682939373D00355F49 /* location.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = location.json; path = ../../../../../Downloads/location.json; sourceTree = "<group>"; };
-		30B1B26A2939374C00355F49 /* photo.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = photo.json; path = ../../../../../Downloads/photo.json; sourceTree = "<group>"; };
 		30B7A2FA2934D03F0016ECAD /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 		30E50634292F2DA800A01CA8 /* PhotoMap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhotoMap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		30E50637292F2DA900A01CA8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -80,6 +88,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		304CBF2D293E3367008D5645 /* Modify */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Modify;
+			sourceTree = "<group>";
+		};
+		304CBF2E293E33F7008D5645 /* TakePhoto */ = {
+			isa = PBXGroup;
+			children = (
+				304CBF2F293E340F008D5645 /* DetailView.swift */,
+			);
+			path = TakePhoto;
+			sourceTree = "<group>";
+		};
 		30AF6DE8292F6ED800D68FB4 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -97,7 +120,9 @@
 			isa = PBXGroup;
 			children = (
 				30AF6DEC292F72D300D68FB4 /* MapView.swift */,
+				304CBF2D293E3367008D5645 /* Modify */,
 				30B1B26529392BDC00355F49 /* CallOutView */,
+				304CBF2E293E33F7008D5645 /* TakePhoto */,
 				30B083502935D7D60074E588 /* Alert.swift */,
 				30B0835829364C010074E588 /* PhotoView.swift */,
 				30B1B2532938ABB500355F49 /* UIView.swift */,
@@ -110,6 +135,7 @@
 			isa = PBXGroup;
 			children = (
 				30AF6DF1292F749D00D68FB4 /* Photo.swift */,
+				304CBF17293DF86D008D5645 /* OnBoardSlide.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -130,6 +156,7 @@
 			children = (
 				30B1B2582938EE0400355F49 /* ClickCallOutViewController.swift */,
 				30B1B25F2938FD3700355F49 /* PhotosSectionCollectionViewCell.swift */,
+				304CBF29293E0FAC008D5645 /* ModifyViewController.swift */,
 			);
 			path = CallOut;
 			sourceTree = "<group>";
@@ -170,8 +197,9 @@
 				30E50637292F2DA900A01CA8 /* AppDelegate.swift */,
 				30B083522935EE2C0074E588 /* AppApperance.swift */,
 				30E50639292F2DA900A01CA8 /* SceneDelegate.swift */,
-				30B1B26A2939374C00355F49 /* photo.json */,
-				30B1B2682939373D00355F49 /* location.json */,
+				304CBF27293E0A99008D5645 /* location.json */,
+				304CBF25293E09CA008D5645 /* findlocation.json */,
+				304CBF21293E0987008D5645 /* photo.json */,
 				30E50640292F2DAA00A01CA8 /* Assets.xcassets */,
 				30E50642292F2DAA00A01CA8 /* LaunchScreen.storyboard */,
 				30E50645292F2DAA00A01CA8 /* Info.plist */,
@@ -256,10 +284,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				30B1B26B2939374C00355F49 /* photo.json in Resources */,
-				30B1B2692939373D00355F49 /* location.json in Resources */,
 				30E50644292F2DAA00A01CA8 /* LaunchScreen.storyboard in Resources */,
 				30E50641292F2DAA00A01CA8 /* Assets.xcassets in Resources */,
+				304CBF28293E0A99008D5645 /* location.json in Resources */,
+				304CBF26293E09CA008D5645 /* findlocation.json in Resources */,
+				304CBF22293E0987008D5645 /* photo.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -313,12 +342,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				30B1B2672939365C00355F49 /* OnBoardingCollectionViewCell.swift in Sources */,
+				304CBF30293E340F008D5645 /* DetailView.swift in Sources */,
 				30B1B25E2938FC4300355F49 /* PhotosSectionView.swift in Sources */,
 				30B08355293625720074E588 /* PhotoCollectionViewCell.swift in Sources */,
 				30B1B2642939290A00355F49 /* PhotoDescriptionView.swift in Sources */,
 				30B7A2FB2934D03F0016ECAD /* CameraViewController.swift in Sources */,
 				30B1B2622938FE3000355F49 /* SeparatorView.swift in Sources */,
 				30B0835929364C010074E588 /* PhotoView.swift in Sources */,
+				304CBF18293DF86D008D5645 /* OnBoardSlide.swift in Sources */,
 				30B1B2562938E65F00355F49 /* PhotoAnnotationView.swift in Sources */,
 				30AF6DF2292F749D00D68FB4 /* Photo.swift in Sources */,
 				30AF6DEF292F745900D68FB4 /* PhotoPreviewViewController.swift in Sources */,
@@ -332,6 +363,7 @@
 				30B083532935EE2C0074E588 /* AppApperance.swift in Sources */,
 				30B1B2602938FD3700355F49 /* PhotosSectionCollectionViewCell.swift in Sources */,
 				30AF6DEA292F715F00D68FB4 /* MapViewController.swift in Sources */,
+				304CBF2A293E0FAC008D5645 /* ModifyViewController.swift in Sources */,
 				30E5063A292F2DA900A01CA8 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

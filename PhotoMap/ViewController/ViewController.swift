@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import Lottie
 
 class ViewController: UIViewController {
     
@@ -32,6 +33,7 @@ class ViewController: UIViewController {
         collectionView.dataSource = self
         collectionView.isPagingEnabled = true
         collectionView.showsHorizontalScrollIndicator = false
+        collectionView.accessibilityRespondsToUserInteraction = false
         
 
         collectionView.register(
@@ -42,58 +44,32 @@ class ViewController: UIViewController {
         return collectionView
     }()
 
-    lazy private var deleteButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("지금 사용하기", for: .normal)
-        button.setTitleColor(.white, for: .normal)
-        button.addTarget(self, action: #selector(moveVC), for: .touchUpInside)
-        button.backgroundColor = .systemPurple
-        button.applyShadow()
-        button.layer.cornerRadius = 24
-        return button
-    }()
-    
-    
+    private let slides: [OnBoardSlide] = OnBoardSlide.collection
 
     override func viewDidLoad() {
         super.viewDidLoad()
         setupLayout()
         view.backgroundColor = .systemBackground
-        // Do any additional setup after loading the view.
     }
-
-
 }
 
 extension ViewController {
     
     func setupLayout() {
-        [collectionView,pageControl, deleteButton].forEach{
+        [collectionView,pageControl].forEach{
             view.addSubview($0)
         }
 
         collectionView.snp.makeConstraints{
-            $0.top.equalToSuperview()
-            $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(600)
+            $0.edges.equalToSuperview()
         }
         
         pageControl.snp.makeConstraints{
             $0.centerX.equalToSuperview()
             $0.width.equalTo(150)
             $0.height.equalTo(48)
-            $0.bottom.equalTo(collectionView.snp.bottom)
+            $0.bottom.equalToSuperview().inset(48)
         }
-        
-        deleteButton.snp.makeConstraints{
-            $0.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(32)
-            $0.leading.equalToSuperview().offset(16)
-            $0.trailing.equalToSuperview().inset(16)
-            $0.height.equalTo(48)
-            
-        }
-        
-        print(collectionView.visibleCells.count)
     }
     
     @objc func pageChanged(_ sender: UIPageControl) {
@@ -102,20 +78,30 @@ extension ViewController {
         collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
     }
     
-    @objc func moveVC() {
-        for i in 0...2  {
-            let indexPath = IndexPath(item: i, section: 0)
-            if let cell = collectionView.cellForItem(at: indexPath) as? OnBoardingCollectionViewCell {
-                cell.animationView.stop()
-            }
+    private func handleActionButtonTapped(at indexPath: IndexPath){
+        if indexPath.row == slides.count - 1 {
+            // 마지막 인덱스
+            showMainApp()
+        } else {
+            let indexItem = indexPath.row + 1
+            let nextIndexPath = IndexPath(item: indexItem, section: 0)
+            collectionView.scrollToItem(at: nextIndexPath, at: .top, animated: true)
         }
-        
-        let vc = UINavigationController(rootViewController: MapViewController())
-        let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as! SceneDelegate
-        sceneDelegate.window?.rootViewController = vc
     }
     
-
+    private func showMainApp() {
+        let vc = UINavigationController(rootViewController: MapViewController())
+        if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate,
+           let window = sceneDelegate.window {
+            window.rootViewController = vc
+            
+            UIView.transition(with: window,
+                              duration: 0.5,
+                              options: .transitionCrossDissolve,
+                              animations: nil,
+                              completion: nil)
+        }
+    }
 }
 
 extension ViewController: UIScrollViewDelegate {
@@ -125,12 +111,6 @@ extension ViewController: UIScrollViewDelegate {
         let x = scrollView.contentOffset.x + (width/2)
 
         let newPage = Int(x / width)
-        let indexPath = IndexPath(item: newPage, section: 0)
-        if let cell = collectionView.cellForItem(at: indexPath) as? OnBoardingCollectionViewCell {
-            if !cell.animationView.isAnimationPlaying {
-                cell.animationView.play()
-            }
-        }
         if pageControl.currentPage != newPage {
             pageControl.currentPage = newPage
         }
@@ -139,14 +119,22 @@ extension ViewController: UIScrollViewDelegate {
 
 extension ViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        3
+        slides.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "OnBoardingCollectionViewCell", for: indexPath) as? OnBoardingCollectionViewCell
-        cell?.setup(lotties: indexPath.row)
-
-        return cell ?? UICollectionViewCell()
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "OnBoardingCollectionViewCell", for: indexPath) as? OnBoardingCollectionViewCell else {
+            return UICollectionViewCell()
+        }
+        let slide = slides[indexPath.row]
+        cell.setup(with: slide)
+        // 이렇게 데이터 전달이 가능하다.
+        cell.actionButtonTap = { [weak self] in
+            guard let self = self else { return }
+            self.handleActionButtonTapped(at: indexPath)
+        }
+        cell.animationView.play()
+        return cell
     }
 }
 
@@ -165,3 +153,6 @@ extension ViewController: UICollectionViewDelegateFlowLayout {
         0.0
     }
 }
+
+
+//https://swiftsenpai.com/development/lottie-animation-markers/

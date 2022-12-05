@@ -1,29 +1,21 @@
 //
-//  ClickCallOutViewController.swift
+//  modifyViewController.swift
 //  PhotoMap
 //
-//  Created by 이재훈 on 2022/12/01.
+//  Created by 이재훈 on 2022/12/05.
 //
 
 import UIKit
 import SnapKit
 
-class ClickCallOutViewController: UIViewController {
+final class ModifyViewController: UIViewController {
     
     var photo: Photo?
-    
-    var DeleteActionButtonTap: (()-> Void)?
     
     private let scrollView = UIScrollView()
     private let contentView = UIView()
     let photosSectionView = PhotosSectionView(frame: .zero)
-    let photoDescriptionView = PhotoDescriptionView(frame: .zero)
-    
-    lazy var deleteButtonItem: UIBarButtonItem = {
-        let button = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(settingButtonItemTapped))
-        
-        return button
-    }()
+    let photoDetailView = DetailView(frame: .zero)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,11 +26,10 @@ class ClickCallOutViewController: UIViewController {
     }
 }
 
-private extension ClickCallOutViewController {
+private extension ModifyViewController {
     func setupNavigationController() {
         self.navigationController?.navigationBar.prefersLargeTitles = false
         navigationItem.largeTitleDisplayMode = .never
-        navigationItem.rightBarButtonItem = deleteButtonItem
     }
 
     func setupLayout() {
@@ -59,7 +50,7 @@ private extension ClickCallOutViewController {
     
         contentView.translatesAutoresizingMaskIntoConstraints = false
 
-        [photosSectionView, photoDescriptionView].forEach{
+        [photosSectionView, photoDetailView].forEach{
             contentView.addSubview($0)
         }
         
@@ -68,13 +59,14 @@ private extension ClickCallOutViewController {
             $0.leading.trailing.equalToSuperview()
         }
         
-        photoDescriptionView.snp.makeConstraints {
+        photoDetailView.snp.makeConstraints {
             $0.top.equalTo(photosSectionView.snp.bottom)
             $0.leading.trailing.equalToSuperview()
             $0.bottom.equalToSuperview()
         }
         
         photosSectionView.photoList = photo?.imagefile ?? [UIImage()]
+//        photoDetailView.setupText(title: photo?.title, description: photo?.description)
 
     }
     
@@ -105,29 +97,5 @@ private extension ClickCallOutViewController {
         
         navigationItem.standardAppearance = appearance
         navigationItem.scrollEdgeAppearance = appearance
-    }
-    
-    @objc func settingButtonItemTapped() {
-        let alertController = UIAlertController(title: "설정", message: nil, preferredStyle: .actionSheet)
-        let modiftyAlertAction = UIAlertAction(title: "수정하기", style: .default) { [weak self] _ in
-            guard let self = self else { return }
-            let vc = ModifyViewController()
-            vc.photo = self.photo
-            self.navigationController?.pushViewController(vc, animated: true)
-        }
-        let deleteAlertAction = UIAlertAction(title: "삭제하기", style: .destructive) { [weak self] _ in
-            guard let self = self else { return }
-            guard let viewControllerStack = self.navigationController?.viewControllers else { return }
-            for stack in viewControllerStack {
-                if let vc = stack as? MapViewController {
-                    self.DeleteActionButtonTap?()
-                    self.navigationController?.popToViewController(vc, animated: true)
-                }
-            }
-        }
-        alertController.addAction(modiftyAlertAction)
-        alertController.addAction(deleteAlertAction)
-        alertController.addAction(UIAlertAction(title: "취소", style: .cancel))
-        self.present(alertController, animated: true)
     }
 }

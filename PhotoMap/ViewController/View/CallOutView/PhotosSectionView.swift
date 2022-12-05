@@ -83,8 +83,7 @@ private extension PhotosSectionView {
         }
         
         separatorView.snp.makeConstraints {
-            $0.leading.equalToSuperview()
-            $0.trailing.equalToSuperview()
+            $0.leading.trailing.equalToSuperview()
             $0.top.equalTo(collectionView.snp.bottom).offset(16.0)
             $0.bottom.equalToSuperview()
         }

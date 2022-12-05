@@ -20,7 +20,7 @@ class MapView: UIView{
     
     var locationManager = CLLocationManager()
     
-    private var photos: [Photo] = [] 
+    private var photos: [Photo] = []
     
     var photolist: [UIImage] = [] {
         didSet {
@@ -245,6 +245,11 @@ extension MapView: MKMapViewDelegate{
         
         let vc = ClickCallOutViewController()
         vc.photo = photo
+        vc.DeleteActionButtonTap = { [weak self] in
+            guard let self = self else { return }
+            self.photos.removeAll(where: {$0.id == photo.id})
+            self.map.removeAnnotation(photo)
+        }
         
         self.findViewController()?.view.opacityDownAnimationPushing(vc: vc)
     }
