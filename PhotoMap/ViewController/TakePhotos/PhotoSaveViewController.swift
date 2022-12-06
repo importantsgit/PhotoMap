@@ -19,17 +19,6 @@ final class PhotoSaveViewController: UIViewController {
     
     //MARK: - Components
     
-    lazy private var uploadButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("사진 업로드", for: .normal)
-        button.setTitleColor(.white, for: .normal)
-        button.addTarget(self, action: #selector(uploadButtonTapped), for: .touchUpInside)
-        button.backgroundColor = .systemPurple
-        button.applyShadow()
-        button.layer.cornerRadius = 24
-        return button
-    }()
-    
     private let scrollView = UIScrollView()
     private let contentView = UIView()
 
@@ -54,6 +43,17 @@ final class PhotoSaveViewController: UIViewController {
         }
         
         return stackView
+    }()
+    
+    lazy private var uploadButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("사진 업로드", for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        button.addTarget(self, action: #selector(uploadButtonTapped), for: .touchUpInside)
+        button.backgroundColor = .systemPurple
+        button.applyShadow()
+        button.layer.cornerRadius = 24
+        return button
     }()
     
     override func viewWillAppear(_ animated: Bool) {
@@ -101,7 +101,6 @@ extension PhotoSaveViewController {
                 navigationController?.popToViewController(vc, animated: true)
             }
         }
-
     }
 }
 

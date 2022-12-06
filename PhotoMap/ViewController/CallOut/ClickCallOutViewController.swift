@@ -79,7 +79,6 @@ private extension ClickCallOutViewController {
     }
     
     func setupNavigationBar() {
-
         let appearance = UINavigationBarAppearance()
         // background와 shadow를 테마에 적절한 Color로 reset해줌
         appearance.configureWithOpaqueBackground()

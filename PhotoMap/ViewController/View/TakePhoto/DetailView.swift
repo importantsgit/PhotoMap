@@ -10,7 +10,7 @@ import SnapKit
 
 class DetailView: UIView {
     
-    let placeHolder = "알람과 함께 띄울 문장을 입력하세요"
+    let placeHolder = "내용을 입력하세요"
     
     lazy var titleLabel: UILabel = {
         let label = UILabel()
@@ -67,6 +67,7 @@ class DetailView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupLayout()
+        // setupKeyBoard()
     }
     
     required init?(coder: NSCoder) {
@@ -102,11 +103,85 @@ extension DetailView {
             $0.height.equalTo(300)
             $0.bottom.equalToSuperview().inset(64)
         }
+        
+        addDoneButtonOnKeyBoard(titleTextView)
+        addDoneButtonOnKeyBoard(descriptionTextView)
     }
     
-    func setupText(title: String, description: String) {
-        titleLabel.text = title
-        descriptionLabel.text = description
+    func setupLabel(title: String?, description: String?) {
+        if let title = title,
+           let description = description {
+            titleTextView.text = title
+            descriptionTextView.text = description
+            titleTextView.textColor = .black
+            descriptionTextView.textColor = .black
+        }
+    }
+    
+    func setupKeyBoard() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardDidHideNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardDidHideNotification, object: nil)
+    }
+    
+    @objc func keyboardWillShow(_ sender: Notification) {
+        let userInfo: NSDictionary = sender.userInfo! as NSDictionary
+        let keyboardFrame: NSValue = userInfo.value(forKey: UIResponder.keyboardFrameEndUserInfoKey) as! NSValue
+        let keyboardRectangle = keyboardFrame.cgRectValue
+
+        if titleTextView.isFirstResponder {
+            keyboardAnimate(keyboardRectangle: keyboardRectangle, textView: titleTextView)
+            //self.findViewController()?.view.frame.origin.y = 0 - keyboardRectangle.height
+        }
+        else if descriptionTextView.isFirstResponder {
+            keyboardAnimate(keyboardRectangle: keyboardRectangle, textView: descriptionTextView)
+            //self.findViewController()?.view.frame.origin.y = 0 - keyboardRectangle.height
+        }
+
+    }
+    
+    @objc func keyboardWillHide(_ sender: Notification) {
+        //self.findViewController()?.view.transform.
+    }
+    
+    func keyboardAnimate(keyboardRectangle: CGRect ,textView: UITextView){
+        print(self.titleTextView.frame.maxY)
+        guard let view = self.findViewController()?.view else { return }
+        view.transform = CGAffineTransform(translationX: 0, y: 0 - keyboardRectangle.height /*(view.frame.height - keyboardRectangle.height - textView.frame.maxY)*/)
+    }
+    
+    func addDoneButtonOnKeyBoard(_ textView: UITextView) {
+        let doneToolbar: UIToolbar = UIToolbar(frame: CGRect.init(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 48))
+        doneToolbar.barStyle = .default
+        
+        let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let done: UIBarButtonItem = UIBarButtonItem(title: "완료", style: .done, target: self, action: #selector(doneButtonTapped))
+        
+        let next: UIBarButtonItem = UIBarButtonItem(title: "다음", style: .done, target: self, action: #selector(nextButtonTapped))
+        
+        done.tintColor = .black
+        let items = [flexSpace,next,done]
+        doneToolbar.items = items
+        doneToolbar.sizeToFit()
+        
+        textView.inputAccessoryView = doneToolbar
+        
+    }
+    
+    @objc func doneButtonTapped() {
+        if titleTextView.isFirstResponder {
+            titleTextView.resignFirstResponder()
+        } else {
+            descriptionTextView.resignFirstResponder()
+        }
+    }
+    @objc func nextButtonTapped() {
+        if titleTextView.isFirstResponder {
+            descriptionTextView.becomeFirstResponder()
+        } else {
+            descriptionTextView.resignFirstResponder()
+        }
+
     }
 }
 
@@ -125,3 +200,4 @@ extension DetailView: UITextViewDelegate {
         }
     }
 }
+

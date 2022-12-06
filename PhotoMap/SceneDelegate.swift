@@ -16,7 +16,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
 
-        let vc = ModifyViewController()     //ViewController()
+        let vc = ViewController() //ModifyViewController()
         
         window?.backgroundColor = .systemBackground
         window?.rootViewController = vc

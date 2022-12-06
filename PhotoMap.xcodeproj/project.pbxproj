@@ -21,6 +21,7 @@
 		30B083532935EE2C0074E588 /* AppApperance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30B083522935EE2C0074E588 /* AppApperance.swift */; };
 		30B08355293625720074E588 /* PhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30B08354293625720074E588 /* PhotoCollectionViewCell.swift */; };
 		30B0835929364C010074E588 /* PhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30B0835829364C010074E588 /* PhotoView.swift */; };
+		30B16825293E9AB200AEF9DA /* PhotoModifySectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30B16824293E9AB200AEF9DA /* PhotoModifySectionView.swift */; };
 		30B1B25229389D6C00355F49 /* PhotoSaveViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30B1B25129389D6C00355F49 /* PhotoSaveViewController.swift */; };
 		30B1B2542938ABB500355F49 /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30B1B2532938ABB500355F49 /* UIView.swift */; };
 		30B1B2562938E65F00355F49 /* PhotoAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30B1B2552938E65F00355F49 /* PhotoAnnotationView.swift */; };
@@ -55,6 +56,7 @@
 		30B083522935EE2C0074E588 /* AppApperance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppApperance.swift; sourceTree = "<group>"; };
 		30B08354293625720074E588 /* PhotoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCollectionViewCell.swift; sourceTree = "<group>"; };
 		30B0835829364C010074E588 /* PhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoView.swift; sourceTree = "<group>"; };
+		30B16824293E9AB200AEF9DA /* PhotoModifySectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoModifySectionView.swift; sourceTree = "<group>"; };
 		30B1B25129389D6C00355F49 /* PhotoSaveViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoSaveViewController.swift; sourceTree = "<group>"; };
 		30B1B2532938ABB500355F49 /* UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
 		30B1B2552938E65F00355F49 /* PhotoAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoAnnotationView.swift; sourceTree = "<group>"; };
@@ -98,6 +100,7 @@
 		304CBF2E293E33F7008D5645 /* TakePhoto */ = {
 			isa = PBXGroup;
 			children = (
+				30B16824293E9AB200AEF9DA /* PhotoModifySectionView.swift */,
 				304CBF2F293E340F008D5645 /* DetailView.swift */,
 			);
 			path = TakePhoto;
@@ -361,6 +364,7 @@
 				30B1B2542938ABB500355F49 /* UIView.swift in Sources */,
 				30B083512935D7D60074E588 /* Alert.swift in Sources */,
 				30B083532935EE2C0074E588 /* AppApperance.swift in Sources */,
+				30B16825293E9AB200AEF9DA /* PhotoModifySectionView.swift in Sources */,
 				30B1B2602938FD3700355F49 /* PhotosSectionCollectionViewCell.swift in Sources */,
 				30AF6DEA292F715F00D68FB4 /* MapViewController.swift in Sources */,
 				304CBF2A293E0FAC008D5645 /* ModifyViewController.swift in Sources */,
