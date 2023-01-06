@@ -20,14 +20,10 @@ class MapView: UIView{
     
     var locationManager = CLLocationManager()
     
-    private var photos: [Photo] = []
-    
-    var photolist: [UIImage] = [] {
+    lazy var photos: [Photo] = [] {
         didSet {
-            let photo = Photo(title: "안녕", locationName: "양산", discipline: "안녕하세여", coordinate: userCenter.coordinate, imagefile: photolist)
-            photos.append(photo)
-            
-            map.addAnnotations(photos)
+            print("Photo: \(photos.count)")
+            print("annotations: \(map.annotations.count)")
         }
     }
 
@@ -95,12 +91,9 @@ class MapView: UIView{
             $0.trailing.equalToSuperview().inset(24)
             $0.width.height.equalTo(64)
         }
-        
-
-        
+    
         map.snp.makeConstraints{
             $0.edges.equalToSuperview()
-            
         }
     }
     
@@ -188,6 +181,17 @@ extension MapView {
         self.findViewController()?.view.opacityDownAnimationPushing(vc: vc)
     }
     
+    func updateAnnotations(photo: Photo) {
+        photos.append(photo)
+        map.addAnnotations(photos)
+    }
+    
+//    func photosList() -> [Photo] {
+//        guard let data = UserDefaults.standard.value(forKey: "photos") as? Data,
+//              let photos = try? PropertyListDecoder().decode([Photo].self, from: data) else {return []}
+//        return photos
+//    }
+    
 }
 
 extension MapView: CLLocationManagerDelegate {
@@ -237,7 +241,7 @@ private extension MKMapView {
     }
 }
 
-extension MapView: MKMapViewDelegate{
+extension MapView: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         guard let photo = view.annotation as? Photo else {
             return
@@ -245,22 +249,17 @@ extension MapView: MKMapViewDelegate{
         
         let vc = ClickCallOutViewController()
         vc.photo = photo
-        vc.DeleteActionButtonTap = { [weak self] in
+        vc.DeleteActionButtonTap = { [weak self] prev in
             guard let self = self else { return }
-            self.photos.removeAll(where: {$0.id == photo.id})
-            self.map.removeAnnotation(photo)
+            self.map.removeAnnotation(prev)
+            self.photos.removeAll(where: {$0.id == prev.id})
+        }
+        vc.addActionButtonTap = {[weak self] update in
+            guard let self = self else { return }
+            self.photos.append(update)
+            self.map.addAnnotation(update)
         }
         
         self.findViewController()?.view.opacityDownAnimationPushing(vc: vc)
-    }
-}
-
-
-extension MapView {
-    func deleteing() {
-        let photo = Photo(title: "안녕", locationName: "양산", discipline: "안녕하세여", coordinate: userCenter.coordinate, imagefile: [UIImage()])
-        photos.append(photo)
-        
-        map.addAnnotations(photos)
     }
 }

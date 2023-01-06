@@ -11,13 +11,13 @@ import Contacts
 
 class Photo: NSObject, MKAnnotation { // MKAnnotation -> 마커
     let id: String = UUID().uuidString
-    let title: String?
+    var title: String?
     // 제목
-    let locationName: String?
-    let discipline: String?
+    var locationName: String?
+    var discipline: String?
     let coordinate: CLLocationCoordinate2D
-    let imagefile: [UIImage]?
-    
+    var imagefile: [Data]?
+        
     init(
         title: String?,
         locationName: String?,
@@ -29,9 +29,23 @@ class Photo: NSObject, MKAnnotation { // MKAnnotation -> 마커
         self.locationName = locationName
         self.discipline = discipline
         self.coordinate = coordinate
-        self.imagefile = imagefile
+        self.imagefile = imagefile?.map({
+            $0.pngData()!
+        })
         
         super.init()
+    }
+    
+    func setImage(to images: [UIImage]) {
+        imagefile = images.map({
+            $0.pngData()!
+        })
+    }
+    
+    func getImage() -> [UIImage]? {
+        return imagefile?.map({
+            UIImage(data: $0)!
+        })
     }
     
     var subtitle: String? {
@@ -56,27 +70,10 @@ class Photo: NSObject, MKAnnotation { // MKAnnotation -> 마커
   */
     // 네비게이션 사용을 위해 필요
     
-    var markerTintColer: UIColor {
-        switch discipline {
-        case "Monument":
-            return .red
-        case "Mural":
-            return .cyan
-        case "Plaque":
-            return .blue
-        case "Sculpture" :
-            return .purple
-        default:
-            return .green
-        }
-    }
-    
     //MARK: 마커 안 이미지 바꾸기 / 단 실행이 안됨?
     var image: UIImage {
         //32*32 사이즈
         return UIImage(named: "cameraLocation") ?? UIImage()
     }
 }
-
-
 

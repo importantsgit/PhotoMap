@@ -18,6 +18,7 @@ final class MapViewController: UIViewController {
     //MARK: - ViewWillAppear
     override func viewWillAppear(_ animated: Bool) {
         view.layer.opacity = 1
+
     }
     
     override func viewDidLoad() {
@@ -43,7 +44,6 @@ extension MapViewController {
         mapView.snp.makeConstraints{
             $0.top.bottom.leading.trailing.equalToSuperview()
         }
-        
     }
 }
 

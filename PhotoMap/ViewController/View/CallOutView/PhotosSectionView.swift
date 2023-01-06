@@ -26,7 +26,7 @@ final class PhotosSectionView: UIView {
         return pageControl
     }()
     
-    private lazy var collectionView: UICollectionView = {
+    lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         layout.estimatedItemSize = .zero
@@ -36,8 +36,6 @@ final class PhotosSectionView: UIView {
         collectionView.dataSource = self
         collectionView.isPagingEnabled = true
         collectionView.showsHorizontalScrollIndicator = false
-        
-
         collectionView.register(
             PhotosSectionCollectionViewCell.self,
             forCellWithReuseIdentifier: "PhotosSectionCollectionViewCell"
@@ -64,7 +62,6 @@ private extension PhotosSectionView {
     func setupViews() {
         [
             collectionView,
-            separatorView,
             pageControl
         ].forEach { addSubview($0) }
         
@@ -73,6 +70,7 @@ private extension PhotosSectionView {
             $0.trailing.equalToSuperview()
             $0.top.equalToSuperview()
             $0.height.equalTo(collectionView.snp.width)
+            $0.bottom.equalToSuperview()
         }
         
         pageControl.snp.makeConstraints{
@@ -81,14 +79,6 @@ private extension PhotosSectionView {
             $0.height.equalTo(48)
             $0.bottom.equalTo(collectionView.snp.bottom)
         }
-        
-        separatorView.snp.makeConstraints {
-            $0.leading.trailing.equalToSuperview()
-            $0.top.equalTo(collectionView.snp.bottom).offset(16.0)
-            $0.bottom.equalToSuperview()
-        }
-        
-        
     }
     
     @objc func pageChanged(_ sender: UIPageControl) {

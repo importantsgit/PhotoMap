@@ -15,7 +15,7 @@ final class ModifyViewController: UIViewController {
     let scrollView = UIScrollView()
     private let contentView = UIView()
     let photosSectionView = PhotoModifySectionView(frame: .zero)
-    let photoDetailView = DetailView(frame: .zero)
+    let photoDetailView = PhotoModifyDetailView(frame: .zero)
     var scrollHeight: CGFloat = 0.0
     
     lazy private var uploadButton: UIButton = {
@@ -33,7 +33,6 @@ final class ModifyViewController: UIViewController {
         super.viewDidLoad()
         setupNavigationController()
         setupLayout()
-        setupNavigationBar()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -47,7 +46,7 @@ private extension ModifyViewController {
         navigationController?.navigationBar.prefersLargeTitles = false
         navigationItem.largeTitleDisplayMode = .never
         title = "수정하기"
-        
+        setupNavigationBar()
     }
 
     func setupLayout() {
@@ -90,7 +89,7 @@ private extension ModifyViewController {
             $0.bottom.equalToSuperview().inset(64)
         }
         
-        photosSectionView.photoList = photo?.imagefile ?? [UIImage()]
+        photosSectionView.photoList = photo?.getImage() ?? [UIImage()]
         photoDetailView.setupLabel(title: photo?.title, description: photo?.discipline)
     }
     
@@ -109,11 +108,9 @@ private extension ModifyViewController {
 
         if titleTextView.isFirstResponder {
             keyboardAnimate(keyboardRectangle: keyboardRectangle, textView: titleTextView)
-            //self.findViewController()?.view.frame.origin.y = 0 - keyboardRectangle.height
         }
         else if descriptionTextView.isFirstResponder {
             keyboardAnimate(keyboardRectangle: keyboardRectangle, textView: descriptionTextView)
-            //self.findViewController()?.view.frame.origin.y = 0 - keyboardRectangle.height
         }
 
     }
@@ -132,9 +129,6 @@ private extension ModifyViewController {
         let viewHeight = UIScreen.main.bounds.height + navibarHeight
         let buttonHeight = textView.frame.maxY + photoDetailView.frame.height
         let scrollHeight = scrollHeight
-        print(viewHeight)
-        print(self.photoDetailView.titleTextView.frame.maxY)
-        print(self.photoDetailView.frame.minY)
         if keyboardRectangle.height > viewHeight + scrollHeight - buttonHeight {
             scrollView.setContentOffset(CGPoint(x: 0, y: (keyboardRectangle.height+buttonHeight) - (viewHeight + scrollHeight)), animated: true)
         }
@@ -144,7 +138,10 @@ private extension ModifyViewController {
         guard let viewControllerStack = self.navigationController?.viewControllers else { return }
         for stack in viewControllerStack {
             if let vc = stack as? ClickCallOutViewController {
-                vc.photo = photo
+                vc.updatePhoto(
+                    title: photoDetailView.titleTextView.text,
+                    discipline: photoDetailView.descriptionTextView.text,
+                    imageFile: photosSectionView.photoList)
                 navigationController?.popToViewController(vc, animated: true)
             }
         }
@@ -159,6 +156,10 @@ private extension ModifyViewController {
         
         // 적용
         
+        appearance.titleTextAttributes = [.foregroundColor: UIColor.systemPurple]
+        appearance.largeTitleTextAttributes = [.foregroundColor: UIColor.systemPurple]
+        UINavigationBar.appearance().tintColor = .systemPurple
+        
         navigationItem.standardAppearance = appearance
         navigationItem.scrollEdgeAppearance = appearance
     }
@@ -167,6 +168,5 @@ private extension ModifyViewController {
 extension ModifyViewController: UIScrollViewDelegate {
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
         scrollHeight = targetContentOffset.pointee.y
-        print(scrollHeight)
     }
 }

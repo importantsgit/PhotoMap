@@ -12,7 +12,7 @@
 		304CBF26293E09CA008D5645 /* findlocation.json in Resources */ = {isa = PBXBuildFile; fileRef = 304CBF25293E09CA008D5645 /* findlocation.json */; };
 		304CBF28293E0A99008D5645 /* location.json in Resources */ = {isa = PBXBuildFile; fileRef = 304CBF27293E0A99008D5645 /* location.json */; };
 		304CBF2A293E0FAC008D5645 /* ModifyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304CBF29293E0FAC008D5645 /* ModifyViewController.swift */; };
-		304CBF30293E340F008D5645 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304CBF2F293E340F008D5645 /* DetailView.swift */; };
+		304CBF30293E340F008D5645 /* PhotoModifyDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304CBF2F293E340F008D5645 /* PhotoModifyDetailView.swift */; };
 		30AF6DEA292F715F00D68FB4 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30AF6DE9292F715F00D68FB4 /* MapViewController.swift */; };
 		30AF6DED292F72D300D68FB4 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30AF6DEC292F72D300D68FB4 /* MapView.swift */; };
 		30AF6DEF292F745900D68FB4 /* PhotoPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30AF6DEE292F745900D68FB4 /* PhotoPreviewViewController.swift */; };
@@ -47,7 +47,7 @@
 		304CBF25293E09CA008D5645 /* findlocation.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = findlocation.json; sourceTree = "<group>"; };
 		304CBF27293E0A99008D5645 /* location.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = location.json; sourceTree = "<group>"; };
 		304CBF29293E0FAC008D5645 /* ModifyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModifyViewController.swift; sourceTree = "<group>"; };
-		304CBF2F293E340F008D5645 /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
+		304CBF2F293E340F008D5645 /* PhotoModifyDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoModifyDetailView.swift; sourceTree = "<group>"; };
 		30AF6DE9292F715F00D68FB4 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		30AF6DEC292F72D300D68FB4 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		30AF6DEE292F745900D68FB4 /* PhotoPreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPreviewViewController.swift; sourceTree = "<group>"; };
@@ -101,7 +101,7 @@
 			isa = PBXGroup;
 			children = (
 				30B16824293E9AB200AEF9DA /* PhotoModifySectionView.swift */,
-				304CBF2F293E340F008D5645 /* DetailView.swift */,
+				304CBF2F293E340F008D5645 /* PhotoModifyDetailView.swift */,
 			);
 			path = TakePhoto;
 			sourceTree = "<group>";
@@ -345,7 +345,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				30B1B2672939365C00355F49 /* OnBoardingCollectionViewCell.swift in Sources */,
-				304CBF30293E340F008D5645 /* DetailView.swift in Sources */,
+				304CBF30293E340F008D5645 /* PhotoModifyDetailView.swift in Sources */,
 				30B1B25E2938FC4300355F49 /* PhotosSectionView.swift in Sources */,
 				30B08355293625720074E588 /* PhotoCollectionViewCell.swift in Sources */,
 				30B1B2642939290A00355F49 /* PhotoDescriptionView.swift in Sources */,

@@ -11,17 +11,20 @@ import SnapKit
 class ClickCallOutViewController: UIViewController {
     
     var photo: Photo?
+    var prevPhoto: Photo?
     
-    var DeleteActionButtonTap: (()-> Void)?
+    var DeleteActionButtonTap: ((_ prevPhoto: Photo)-> Void)?
+    var addActionButtonTap: ((_ updatePhoto: Photo)-> Void)?
     
     private let scrollView = UIScrollView()
     private let contentView = UIView()
     let photosSectionView = PhotosSectionView(frame: .zero)
     let photoDescriptionView = PhotoDescriptionView(frame: .zero)
     
-    lazy var deleteButtonItem: UIBarButtonItem = {
-        let button = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(settingButtonItemTapped))
+    lazy var settingButtonItem: UIBarButtonItem = {
+        let button = UIBarButtonItem(image: UIImage(named: "menu"), style: .plain, target: self, action: #selector(settingButtonItemTapped))
         
+        button.tintColor = .white
         return button
     }()
     
@@ -29,8 +32,18 @@ class ClickCallOutViewController: UIViewController {
         super.viewDidLoad()
         setupNavigationController()
         setupLayout()
-        setupNavigationBar()
-
+    }
+    
+    func updatePhoto(title: String, discipline: String, imageFile: [UIImage]) {
+        guard let photo = photo else { return }
+        photo.title = title
+        photo.discipline = discipline
+        photo.imagefile = imageFile.map({$0.pngData()!})
+        photosSectionView.photoList = imageFile
+        photoDescriptionView.getPhoto(photo: photo)
+        photosSectionView.collectionView.reloadData()
+        
+        pushPhoto()
     }
 }
 
@@ -38,7 +51,8 @@ private extension ClickCallOutViewController {
     func setupNavigationController() {
         self.navigationController?.navigationBar.prefersLargeTitles = false
         navigationItem.largeTitleDisplayMode = .never
-        navigationItem.rightBarButtonItem = deleteButtonItem
+        navigationItem.rightBarButtonItem = settingButtonItem
+        setupNavigationBar()
     }
 
     func setupLayout() {
@@ -74,8 +88,21 @@ private extension ClickCallOutViewController {
             $0.bottom.equalToSuperview()
         }
         
-        photosSectionView.photoList = photo?.imagefile ?? [UIImage()]
-
+        if let photo = photo {
+            photosSectionView.photoList = photo.getImage() ?? [UIImage()]
+            photoDescriptionView.getPhoto(photo: photo)
+        }
+        
+        prevPhoto = photo
+    }
+    
+    func pushPhoto() {
+        guard let photo = photo,
+              let prevPhoto = prevPhoto
+        else { return }
+        
+        self.DeleteActionButtonTap?(prevPhoto)
+        self.addActionButtonTap?(photo)
     }
     
     func setupNavigationBar() {
@@ -106,6 +133,8 @@ private extension ClickCallOutViewController {
         navigationItem.scrollEdgeAppearance = appearance
     }
     
+
+    
     @objc func settingButtonItemTapped() {
         let alertController = UIAlertController(title: "설정", message: nil, preferredStyle: .actionSheet)
         let modiftyAlertAction = UIAlertAction(title: "수정하기", style: .default) { [weak self] _ in
@@ -115,11 +144,13 @@ private extension ClickCallOutViewController {
             self.navigationController?.pushViewController(vc, animated: true)
         }
         let deleteAlertAction = UIAlertAction(title: "삭제하기", style: .destructive) { [weak self] _ in
-            guard let self = self else { return }
-            guard let viewControllerStack = self.navigationController?.viewControllers else { return }
+            guard let self = self,
+                  let viewControllerStack = self.navigationController?.viewControllers,
+                  let prevPhoto = self.prevPhoto
+            else { return }
             for stack in viewControllerStack {
                 if let vc = stack as? MapViewController {
-                    self.DeleteActionButtonTap?()
+                    self.DeleteActionButtonTap?(prevPhoto)
                     self.navigationController?.popToViewController(vc, animated: true)
                 }
             }

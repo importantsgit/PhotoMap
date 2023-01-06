@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class DetailView: UIView {
+class PhotoModifyDetailView: UIView {
     
     let placeHolder = "내용을 입력하세요"
     
@@ -75,7 +75,7 @@ class DetailView: UIView {
     }
 }
 
-extension DetailView {
+extension PhotoModifyDetailView {
     func setupLayout() {
         [titleLabel,titleTextView,descriptionLabel,descriptionTextView ].forEach{
             addSubview($0)
@@ -118,49 +118,20 @@ extension DetailView {
         }
     }
     
-    func setupKeyBoard() {
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardDidHideNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardDidHideNotification, object: nil)
-    }
-    
-    @objc func keyboardWillShow(_ sender: Notification) {
-        let userInfo: NSDictionary = sender.userInfo! as NSDictionary
-        let keyboardFrame: NSValue = userInfo.value(forKey: UIResponder.keyboardFrameEndUserInfoKey) as! NSValue
-        let keyboardRectangle = keyboardFrame.cgRectValue
-
-        if titleTextView.isFirstResponder {
-            keyboardAnimate(keyboardRectangle: keyboardRectangle, textView: titleTextView)
-            //self.findViewController()?.view.frame.origin.y = 0 - keyboardRectangle.height
-        }
-        else if descriptionTextView.isFirstResponder {
-            keyboardAnimate(keyboardRectangle: keyboardRectangle, textView: descriptionTextView)
-            //self.findViewController()?.view.frame.origin.y = 0 - keyboardRectangle.height
-        }
-
-    }
-    
-    @objc func keyboardWillHide(_ sender: Notification) {
-        //self.findViewController()?.view.transform.
-    }
-    
-    func keyboardAnimate(keyboardRectangle: CGRect ,textView: UITextView){
-        print(self.titleTextView.frame.maxY)
-        guard let view = self.findViewController()?.view else { return }
-        view.transform = CGAffineTransform(translationX: 0, y: 0 - keyboardRectangle.height /*(view.frame.height - keyboardRectangle.height - textView.frame.maxY)*/)
-    }
-    
     func addDoneButtonOnKeyBoard(_ textView: UITextView) {
         let doneToolbar: UIToolbar = UIToolbar(frame: CGRect.init(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 48))
         doneToolbar.barStyle = .default
         
         let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        
         let done: UIBarButtonItem = UIBarButtonItem(title: "완료", style: .done, target: self, action: #selector(doneButtonTapped))
         
-        let next: UIBarButtonItem = UIBarButtonItem(title: "다음", style: .done, target: self, action: #selector(nextButtonTapped))
+        let next: UIBarButtonItem = UIBarButtonItem(title: "다음", style: .plain, target: self, action: #selector(nextButtonTapped))
+        
+        let prev: UIBarButtonItem = UIBarButtonItem(title: "이전", style: .plain, target: self, action: #selector(prevButtonTapped))
         
         done.tintColor = .black
-        let items = [flexSpace,next,done]
+        let items = [flexSpace,prev,next,done]
         doneToolbar.items = items
         doneToolbar.sizeToFit()
         
@@ -175,17 +146,25 @@ extension DetailView {
             descriptionTextView.resignFirstResponder()
         }
     }
+    
     @objc func nextButtonTapped() {
         if titleTextView.isFirstResponder {
             descriptionTextView.becomeFirstResponder()
         } else {
             descriptionTextView.resignFirstResponder()
         }
-
+    }
+    
+    @objc func prevButtonTapped() {
+        if descriptionTextView.isFirstResponder {
+            titleTextView.becomeFirstResponder()
+        } else {
+            titleTextView.resignFirstResponder()
+        }
     }
 }
 
-extension DetailView: UITextViewDelegate {
+extension PhotoModifyDetailView: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
         if textView.text == placeHolder {
             textView.text = nil

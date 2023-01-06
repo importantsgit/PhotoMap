@@ -25,12 +25,12 @@ class PhotosSectionCollectionViewCell: UICollectionViewCell {
     private lazy var button: UIButton = {
         let button = UIButton()
         button.addTarget(self, action: #selector(deleteButtonTapped), for: .touchUpInside)
-        let image = UIImageView(image: UIImage(systemName: "x.circle.fill"))
+        let image = UIImageView(image: UIImage(systemName: "x.circle"))
         button.addSubview(image)
         image.snp.makeConstraints{
             $0.edges.equalToSuperview()
         }
-        image.tintColor = .systemPurple
+        image.tintColor = .white
         return button
     }()
 

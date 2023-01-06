@@ -40,10 +40,9 @@ class PhotoAnnotationView: MKAnnotationView {
             photoInfo = photo
             canShowCallout = true
             calloutOffset = CGPoint(x: 0, y: 5)
-            rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
             
             // 네비 버튼 이미지
-            mapsButton.setBackgroundImage(photo.imagefile?.first, for: .normal)
+            mapsButton.setBackgroundImage(photo.getImage()?.first, for: .normal)
             
             // 서브타이틀 라벨
             detailLabel.text = photo.subtitle
